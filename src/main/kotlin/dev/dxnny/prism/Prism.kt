@@ -79,10 +79,13 @@ class Prism : JavaPlugin() {
 
     override fun onDisable() {
         logger.info("Disabling Prism...")
-        if (enabled) {
+        try {
             storage.saveAllPlayerGradients()
+        } catch (e: Exception) {
+            logger.severe("Error saving data: ${e.message}")
+            e.printStackTrace()
+        } finally {
             storage.close()
-            enabled = false
         }
     }
 
