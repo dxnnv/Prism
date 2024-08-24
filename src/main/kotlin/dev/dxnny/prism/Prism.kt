@@ -48,8 +48,12 @@ class Prism : JavaPlugin() {
 
         // Load data
         logger.info("Loading player data...")
-        this.storage = LiteManager(this.dataFolder.path + "newPrism.db")
-        storage.loadAllOnlinePlayersGradients(this.server.onlinePlayers)
+        val dbPath = this.dataFolder.path + "/prism.db"
+        logger.warning(dbPath)
+        this.storage = LiteManager(dbPath)
+        if (this.server.onlinePlayers.isNotEmpty()) {
+            storage.loadAllOnlinePlayersGradients(this.server.onlinePlayers)
+        }
         logger.info("Loaded player data")
 
         // commands
@@ -78,9 +82,11 @@ class Prism : JavaPlugin() {
     }
 
     override fun onDisable() {
-        logger.info("Disabling Prism...")
+        logger.warning("onDisable called...")
         try {
             storage.saveAllPlayerGradients()
+            storage.readMap()
+            logger.warning("saved all gradients!")
         } catch (e: Exception) {
             logger.severe("Error saving data: ${e.message}")
             e.printStackTrace()

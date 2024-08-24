@@ -18,6 +18,7 @@ class PlayerQuitEvent(private var plugin: Prism) : Listener {
             val gradientId = storage.getGradientId(uuid)
             ConsoleLog.debug("GradientID:$gradientId")
             storage.savePlayerGradient(uuid, gradientId!!)
+
         }
     }
 }

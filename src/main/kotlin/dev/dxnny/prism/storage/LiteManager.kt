@@ -55,6 +55,20 @@ class LiteManager(databasePath: String) {
         }
     }
 
+    // check if uuid is in the table
+    fun playerGradientExists(uuid: UUID): Boolean {
+        val sql = "SELECT COUNT(*) FROM player_gradients WHERE uuid = ?"
+        connection.prepareStatement(sql).use { preparedStatement ->
+            preparedStatement.setString(1, uuid.toString())
+            preparedStatement.executeQuery().use { resultSet ->
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0
+                }
+            }
+        }
+        return false
+    }
+
     // Insert or update a player's gradient in the map
     fun insertOrUpdatePlayerGradient(uuid: UUID, gradientId: String) {
         ConsoleLog.debug("Set data for ${instance.server.getPlayer(uuid)?.name} to $gradientId")
@@ -83,12 +97,18 @@ class LiteManager(databasePath: String) {
 
         connection.prepareStatement(sql).use { preparedStatement ->
             playerGradients.forEach { (uuid, gradientId) ->
-                ConsoleLog.debug("Saving data for ${instance.server.getPlayer(uuid)?.name}...")
+                ConsoleLog.debug("Saving data for ${instance.server.getOfflinePlayer(uuid).name}...")
                 preparedStatement.setString(1, uuid.toString())
                 preparedStatement.setString(2, gradientId)
                 preparedStatement.addBatch()
             }
             preparedStatement.executeBatch()
+        }
+    }
+
+    fun readMap() {
+        playerGradients.forEach { uuid, gradientId ->
+            ConsoleLog.debug("UUID: $uuid - Gradient ID: $gradientId")
         }
     }
 

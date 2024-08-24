@@ -13,9 +13,12 @@ class PlayerJoinEvent(private var plugin: Prism): Listener {
         ConsoleLog.debug("Fired PlayerJoinEvent!")
         val storage = instance.getStorage()
         val uuid = e.player.uniqueId
-        if (!storage.getGradientId(uuid).isNullOrEmpty()) {
-            ConsoleLog.debug("Loading gradient...")
-            instance.getStorage().loadPlayerGradient(uuid)
+        ConsoleLog.debug("Loading gradient...")
+        if (storage.playerGradientExists(uuid)) {
+            storage.loadPlayerGradient(uuid)
+            ConsoleLog.debug("Loaded gradient ${storage.getGradientId(uuid)} for $uuid")
+        } else {
+            ConsoleLog.debug("no gradient found for user $uuid")
         }
     }
 }

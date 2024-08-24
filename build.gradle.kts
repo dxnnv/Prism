@@ -35,7 +35,6 @@ dependencies {
     implementation("xyz.xenondevs.invui:inventory-access-r18:1.36")
     implementation("xyz.xenondevs.invui:inventory-access-r19:1.36")
     implementation("xyz.xenondevs.invui:inventory-access-r20:1.33")
-    implementation("org.xerial:sqlite-jdbc:3.46.0.0")
 }
 
 val targetJavaVersion = 21
