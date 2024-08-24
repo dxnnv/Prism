@@ -122,7 +122,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
     ): MutableList<String>? {
         if (sender !is Player) return null
         if (args?.size == 1) {
-            return mutableListOf("set", "clear", "reload")
+            return mutableListOf("help", "set", "clear", "reload")
         } else if (args?.size == 2 && (args[0] == "clear" || args[0] == "set") && hasPerm(sender, Permissions.PRISM_ADMIN)) {
             val l: MutableList<String> = mutableListOf()
             Bukkit.getOnlinePlayers().forEach { l.add(it.name) }
