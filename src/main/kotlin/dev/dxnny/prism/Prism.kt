@@ -49,7 +49,6 @@ class Prism : JavaPlugin() {
         // Load data
         logger.info("Loading player data...")
         val dbPath = this.dataFolder.path + "/prism.db"
-        logger.warning(dbPath)
         this.storage = LiteManager(dbPath)
         if (this.server.onlinePlayers.isNotEmpty()) {
             storage.loadAllOnlinePlayersGradients(this.server.onlinePlayers)
@@ -70,7 +69,6 @@ class Prism : JavaPlugin() {
         // PlaceholderAPI
         logger.info("Attempting to find PlaceholderAPI...")
         if (manager.getPlugin("PlaceholderAPI") != null) {
-            logger.info("Found PlaceholderAPI!")
             PlaceholderAPIHook().register()
             logger.info("PlaceholderAPI expansion registered.")
         } else {
@@ -82,15 +80,13 @@ class Prism : JavaPlugin() {
     }
 
     override fun onDisable() {
-        logger.warning("onDisable called...")
         try {
             storage.saveAllPlayerGradients()
-            logger.warning("saved all gradients!")
         } catch (e: Exception) {
             logger.severe("Error saving data: ${e.message}")
             e.printStackTrace()
         } finally {
-            storage.close()
+            storage.close(this)
         }
     }
 
@@ -105,6 +101,13 @@ class Prism : JavaPlugin() {
 
     fun getMessages(): Messages {
         return messages
+    }
+
+    fun getConfiguration(): Config {
+        return configuration
+    }
+    fun reloadConfiguration() {
+        reloadConfig()
     }
 
     fun getStorage(): LiteManager {
