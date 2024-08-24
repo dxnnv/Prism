@@ -32,7 +32,7 @@ class Lang {
         lateinit var helpFooter: String
 
         fun updateMessages(plugin: Prism) {
-            prefix = plugin.getMessagesFile().getString("prefix") ?: "<gradient:#FF0000:#FF7000><b>GRADIENTS <reset><dark_grey>≫</dark_grey> <white>"
+            prefix = plugin.getMessagesFile().getString("prefix") ?: "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8><b>GRADIENTS <reset><dark_grey>≫</dark_grey> <white>"
 
             gradientApplied = plugin.getMessagesFile().getString("gradientApplied") ?: "<green>You applied the <gradient> gradient!"
             gradientCleared = plugin.getMessagesFile().getString("gradientCleared") ?: "<grey>Your current gradient has been cleared."
@@ -49,10 +49,10 @@ class Lang {
             gradientNonExistent = plugin.getMessagesFile().getString("gradientNonExistent") ?: "<red>This gradient does not exist!"
             invalidPlayer = plugin.getMessagesFile().getString("invalidPlayer") ?: "<red>Invalid player"
 
-            helpHeader = plugin.getMessagesFile().getString("helpHeader") ?: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</st> <gradient:#5E00D6:#9D00FD:#5E00D6>Toolbox Commands<reset> <gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
-            helpSyntaxColor = plugin.getMessagesFile().getString("helpSyntaxColor") ?: "<c:#f7bb2b>"
+            helpHeader = plugin.getMessagesFile().getString("helpHeader") ?: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</st> <gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8>Gradient Commands</gradient> <gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
+            helpSyntaxColor = plugin.getMessagesFile().getString("helpSyntaxColor") ?: "<c:#6EB9FD>"
             helpDescColor = plugin.getMessagesFile().getString("helpDescColor") ?: "<grey>"
-            helpFooter = plugin.getMessagesFile().getString("helpFooter") ?: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
+            helpFooter = plugin.getMessagesFile().getString("helpFooter") ?: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯-<reset>"
         }
     }
 }
