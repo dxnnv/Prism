@@ -4,6 +4,7 @@ import dev.dxnny.prism.Prism.Companion.instance
 import java.util.logging.Level
 import java.util.logging.Logger
 
+@Suppress("unused")
 object ConsoleLog {
     private val logger: Logger = instance.logger
 
@@ -21,10 +22,5 @@ object ConsoleLog {
 
     fun logExp(level: Level?, msg: String?, throwable: Throwable?) {
         logger.log(level, msg, throwable)
-    }
-    fun debug(msg: String?) {
-        if (instance.debugMode()) {
-            logger.warning(msg)
-        }
     }
 }

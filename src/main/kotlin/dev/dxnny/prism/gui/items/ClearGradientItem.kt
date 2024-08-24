@@ -2,7 +2,6 @@ package dev.dxnny.prism.gui.items
 
 import dev.dxnny.prism.Prism.Companion.instance
 import dev.dxnny.prism.files.Lang
-import dev.dxnny.prism.utils.ConsoleLog
 import dev.dxnny.prism.utils.text.MessageUtils.mmParse
 import dev.dxnny.prism.utils.text.MessageUtils.sendMessage
 import org.bukkit.Material
@@ -29,7 +28,6 @@ class ClearGradientItem : PageItem(false) {
         if (clickType == ClickType.LEFT){
             if (!storage.getGradientId(player.uniqueId).isNullOrEmpty()) {
                 storage.deletePlayerGradient(player.uniqueId)
-                ConsoleLog.debug("Removed gradient for ${player.name}")
                 sendMessage(player, Lang.gradientCleared)
             } else {
                 sendMessage(player, Lang.noGradientActive)

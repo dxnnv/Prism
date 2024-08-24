@@ -51,5 +51,4 @@ gui:
       - ""
       - "<#FE2E2B>✘ Obtain from <yellow>/coinshop."
 
-debug: true
 config-version: "1.0.0"

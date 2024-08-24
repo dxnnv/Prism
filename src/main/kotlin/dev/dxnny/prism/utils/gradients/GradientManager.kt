@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 
 object GradientManager {
+    @Suppress("unused")
     fun getGradientString(gradientId: String): String? {
         val gradient: ConfigurationSection? = instance.config.getConfigurationSection("gradients.$gradientId")
         return gradient?.getString("gradient")

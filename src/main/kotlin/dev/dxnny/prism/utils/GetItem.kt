@@ -10,9 +10,7 @@ import org.bukkit.inventory.ItemStack
 
 object GetItem {
 
-    private val path = instance.dataFolder
     private var itemConfig = instance.config
-    private var itemDisplayName: Component? = null
 
     fun getItem(itemPath: String, unlocked: Boolean): ItemStack? {
         val state = if (unlocked) "available" else "locked"
@@ -23,8 +21,6 @@ object GetItem {
                 } else {
                     itemConfig.getString("gui.gradient.material")
                 }
-                val gradientColor = itemConfig.getString("${itemPath}.gradient")
-                val gradientName = itemConfig.getString("${itemPath}.name")!!
 
                 val material = Material.getMaterial(gradientEntry!!)!!
                 val customItem = ItemStack(material)

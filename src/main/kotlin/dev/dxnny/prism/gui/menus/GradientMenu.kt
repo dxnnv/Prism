@@ -18,7 +18,6 @@ class GradientMenu {
         fun open(player: Player) {
             val gradients: ConfigurationSection = instance.config.getConfigurationSection("gradients")!!
             val guiConfig: ConfigurationSection = instance.config.getConfigurationSection("gui")!!
-            val perPage = guiConfig.getInt("per-page")
 
             val allGradients = gradients.getKeys(false).toTypedArray()
             val items = mutableListOf<Item>()

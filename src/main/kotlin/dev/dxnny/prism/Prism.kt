@@ -63,8 +63,8 @@ class Prism : JavaPlugin() {
 
         // events
         logger.info("Registering Events...")
-        manager.registerEvents(PlayerJoinEvent(this), this)
-        manager.registerEvents(PlayerQuitEvent(this), this)
+        manager.registerEvents(PlayerJoinEvent(), this)
+        manager.registerEvents(PlayerQuitEvent(), this)
         logger.info("Registered Events!")
 
         // PlaceholderAPI
@@ -85,7 +85,6 @@ class Prism : JavaPlugin() {
         logger.warning("onDisable called...")
         try {
             storage.saveAllPlayerGradients()
-            storage.readMap()
             logger.warning("saved all gradients!")
         } catch (e: Exception) {
             logger.severe("Error saving data: ${e.message}")
@@ -108,15 +107,8 @@ class Prism : JavaPlugin() {
         return messages
     }
 
-    fun getConfiguration(): Config {
-        return configuration
-    }
-
     fun getStorage(): LiteManager {
         return storage
     }
 
-    fun debugMode(): Boolean {
-        return config.getBoolean("debug")
-    }
 }

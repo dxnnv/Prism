@@ -1,6 +1,5 @@
 package dev.dxnny.prism.storage
 
-import dev.dxnny.prism.Prism.Companion.instance
 import dev.dxnny.prism.utils.ConsoleLog
 import org.bukkit.entity.Player
 import java.sql.Connection
@@ -10,11 +9,10 @@ import java.util.*
 
 class LiteManager(databasePath: String) {
 
-    private val connection: Connection
+    private val connection: Connection = DriverManager.getConnection("jdbc:sqlite:$databasePath")
     private val playerGradients: MutableMap<UUID, String> = mutableMapOf()
 
     init {
-        connection = DriverManager.getConnection("jdbc:sqlite:$databasePath")
         createTable()
     }
 
@@ -33,7 +31,6 @@ class LiteManager(databasePath: String) {
 
     // Load all online players' gradients into the map
     fun loadAllOnlinePlayersGradients(onlinePlayers: Collection<Player>) {
-        ConsoleLog.debug("Loading gradients for all online players...")
         onlinePlayers.forEach { player ->
             loadPlayerGradient(player.uniqueId)
         }
@@ -41,7 +38,6 @@ class LiteManager(databasePath: String) {
 
     // Add a player's data to the map by fetching from the database
     fun loadPlayerGradient(uuid: UUID) {
-        ConsoleLog.debug("Loading gradient for ${instance.server.getPlayer(uuid)?.name}...")
         val sql = "SELECT gradientId FROM player_gradients WHERE uuid = ?"
         connection.prepareStatement(sql).use { preparedStatement ->
             preparedStatement.setString(1, uuid.toString())
@@ -49,7 +45,6 @@ class LiteManager(databasePath: String) {
                 if (resultSet.next()) {
                     val gradientId = resultSet.getString("gradientId")
                     playerGradients[uuid] = gradientId
-                    ConsoleLog.debug("Loaded gradient $gradientId for ${instance.server.getPlayer(uuid)?.name}")
                 }
             }
         }
@@ -71,7 +66,6 @@ class LiteManager(databasePath: String) {
 
     // Insert or update a player's gradient in the map
     fun insertOrUpdatePlayerGradient(uuid: UUID, gradientId: String) {
-        ConsoleLog.debug("Set data for ${instance.server.getPlayer(uuid)?.name} to $gradientId")
         playerGradients[uuid] = gradientId
     }
 
@@ -82,13 +76,11 @@ class LiteManager(databasePath: String) {
 
     // Delete a player's gradient entry from the map
     fun deletePlayerGradient(uuid: UUID) {
-        ConsoleLog.debug("Removed data from map for ${instance.server.getPlayer(uuid)?.name}")
         playerGradients.remove(uuid)
     }
 
     // Save all player gradients to the database
     fun saveAllPlayerGradients() {
-        ConsoleLog.debug("Saving data for all players...")
         val sql = """
             INSERT INTO player_gradients (uuid, gradientId)
             VALUES (?, ?)
@@ -97,7 +89,6 @@ class LiteManager(databasePath: String) {
 
         connection.prepareStatement(sql).use { preparedStatement ->
             playerGradients.forEach { (uuid, gradientId) ->
-                ConsoleLog.debug("Saving data for ${instance.server.getOfflinePlayer(uuid).name}...")
                 preparedStatement.setString(1, uuid.toString())
                 preparedStatement.setString(2, gradientId)
                 preparedStatement.addBatch()
@@ -106,15 +97,8 @@ class LiteManager(databasePath: String) {
         }
     }
 
-    fun readMap() {
-        playerGradients.forEach { uuid, gradientId ->
-            ConsoleLog.debug("UUID: $uuid - Gradient ID: $gradientId")
-        }
-    }
-
     // Saves a player's gradient to database
     fun savePlayerGradient(uuid: UUID, gradientId: String) {
-        ConsoleLog.debug("Saving data for ${instance.server.getPlayer(uuid)?.name}...")
         val sql = """
             INSERT INTO player_gradients (uuid, gradientId)
             VALUES (?, ?)
