@@ -1,7 +1,6 @@
 package dev.dxnny.prism.storage
 
 import dev.dxnny.prism.Prism
-import dev.dxnny.prism.utils.ConsoleLog
 import org.bukkit.entity.Player
 import java.sql.Connection
 import java.sql.DriverManager

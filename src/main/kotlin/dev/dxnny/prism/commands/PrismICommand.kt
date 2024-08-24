@@ -24,7 +24,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
     }
 
     override fun syntax(): String {
-        return "/prism [set|clear|reload] [player] [gradient]"
+        return "/prism <help|set|clear|reload> [player] [gradient]"
     }
 
     override fun description(): String {

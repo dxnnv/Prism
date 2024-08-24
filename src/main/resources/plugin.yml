@@ -16,7 +16,7 @@ commands:
       - gradient
   prism:
     description: "Main command"
-    usage: "&e/prism <set|clear|reload> [player] [gradient]"
+    usage: "&e/prism <help|set|clear|reload> [player] [gradient]"
     permission: prism.admin
 permissions :
   prism.*:
@@ -26,7 +26,7 @@ permissions :
       prism.admin: true
       prism.use: true
   prism.admin:
-    description: "Access to /prism [set|clear|reload]"
+    description: "Access to /prism <help|set|clear|reload>"
     default: op
   prism.use:
     description: "Access to /gradients menu"

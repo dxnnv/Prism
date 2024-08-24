@@ -15,7 +15,7 @@ noGradientActive: "<red>You don't have any gradients applied"
 notEnoughArgs: "<red>Incorrect number of arguments."
 gradientNonExistent: "<red>This gradient does not exist!"
 invalidPlayer: "<red>Invalid player"
-# help
+# /prism help
 helpHeader: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</st> <gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8>Gradient Commands</gradient> <gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
 helpSyntaxColor: "<c:#6EB9FD>"
 helpDescColor: "<grey>"
