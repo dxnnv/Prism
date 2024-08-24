@@ -32,7 +32,7 @@ class Lang {
         lateinit var helpFooter: String
 
         fun updateMessages(plugin: Prism) {
-            prefix = plugin.getMessagesFile().getString("prefix") ?: "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8><b>GRADIENTS <reset><dark_grey>≫</dark_grey> <white>"
+            prefix = plugin.getMessagesFile().getString("prefix") ?: "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8><b>GRADIENTS <reset><dark_grey>»</dark_grey> <white>"
 
             gradientApplied = plugin.getMessagesFile().getString("gradientApplied") ?: "<green>You applied the <gradient> gradient!"
             gradientCleared = plugin.getMessagesFile().getString("gradientCleared") ?: "<grey>Your current gradient has been cleared."

@@ -1,4 +1,4 @@
-prefix: "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8><b>GRADIENTS <reset><dark_grey>≫</dark_grey> <white>"
+prefix: "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8><b>GRADIENTS <reset><dark_grey>»</dark_grey> <white>"
 # /gradients
 gradientApplied: "<green>You applied the <gradient> gradient!"
 gradientCleared: "<grey>Your current gradient has been cleared."
