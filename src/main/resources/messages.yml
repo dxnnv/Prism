@@ -1,9 +1,9 @@
-prefix: "<gradient:#FF0000:#FF7000><b>GRADIENTS <reset><dark_grey>≫</dark_grey> <white>"
+prefix: "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8><b>GRADIENTS <reset><dark_grey>≫</dark_grey> <white>"
 # /gradients
 gradientApplied: "<green>You applied the <gradient> gradient!"
 gradientCleared: "<grey>Your current gradient has been cleared."
 gradientAlreadyActive: "<red>You are already using this gradient!"
-# /prism [setother|clear]
+# /prism [set|clear]
 gradientAppliedOther: "<green>Set <target>'s gradient to <gradient>."
 gradientClearedOther: "<green>Cleared <target>'s gradient."
 # /prism reload
@@ -16,9 +16,9 @@ notEnoughArgs: "<red>Incorrect number of arguments."
 gradientNonExistent: "<red>This gradient does not exist!"
 invalidPlayer: "<red>Invalid player"
 # help
-helpHeader: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</st> <gradient:#FF0000:#FF7000>Gradient Commands<reset> <gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
-helpSyntaxColor: "<c:#f7bb2b>"
+helpHeader: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</st> <gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8>Gradient Commands</gradient> <gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
+helpSyntaxColor: "<c:#6EB9FD>"
 helpDescColor: "<grey>"
-helpFooter: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
+helpFooter: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯-<reset>"
 
 version: "1.0.0"
