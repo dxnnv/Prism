@@ -97,9 +97,6 @@ class PrismCommand : Command {
                     }
 
                     val storage = instance.getStorage()
-                    if(args[1] == "null") {
-                        storage.readMap()
-                    }
                     val target: Player? = instance.server.getPlayer(args[1])
                     if (target == null) {
                         sendMessage(sender, Lang.invalidPlayer)
