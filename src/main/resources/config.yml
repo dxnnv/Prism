@@ -1,14 +1,21 @@
 gradients:
-  sunrise:
-    name: "Sunrise Gradient"
-    gradient: "<gradient:#FDBB47:#FF0000>"
+  prism:
+    name: "Prism Gradient"
+    gradient: "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8>"
     gui-item: NAME_TAG
-    lore:
+    # lore is optional, if not provided uses gui.gradient.lore-available/locked
+    lore-available:
       - "<dark_grey>Gradient"
       - ""
-      - "<red>Locked"
+      - "<green>✔ Purchased"
       - ""
-      - "<#FE2E2B>✘ Not purchasable"
+      - "<yellow>➥ <b><u>CLICK</u></b> to Select"
+    lore-locked:
+      - "<dark_grey>Gradient"
+      - ""
+      - "<#FF0000>✘ Locked"
+      - ""
+      - "<#FFD700>Not obtainable"
 gui:
   # STRUCTURE
   # Gradient = .
@@ -24,7 +31,7 @@ gui:
     - "# # # < ! > # # #"
   title: "<yellow>Gradients</yellow>"
   filler:
-    name: “<reset>”
+    name: "<reset>"
     material: BLACK_STAINED_GLASS_PANE
   page-forward:
     name: "<grey>Next Page"
@@ -49,6 +56,8 @@ gui:
       - "<white>Purchase a gradient to make your name"
       - "<white>stand out to everyone!"
       - ""
-      - "<#FE2E2B>✘ Obtain from <yellow>/coinshop."
+      - "<#FF0000>✘ Locked"
+      - ""
+      - "<#FFD700>Obtain from <u>/coinshop<u>!"
 
 config-version: "1.0.0"

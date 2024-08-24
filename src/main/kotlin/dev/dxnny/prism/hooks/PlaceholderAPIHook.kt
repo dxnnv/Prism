@@ -34,7 +34,7 @@ class PlaceholderAPIHook : PlaceholderExpansion() {
     private fun prismPlaceholders(placeholder: String, uuid: UUID): String {
         val gradientId = instance.getStorage().getGradientId(uuid) ?: return "Null"
 
-        val gradientConfig = instance.config.getConfigurationSection("gradients.$gradientId")
+        val gradientConfig = instance.getConfiguration().get()!!.getConfigurationSection("gradients.$gradientId")
         val gradientColor = gradientConfig!!.getString("gradient")!!
         val displayName = miniMessage().serialize(Bukkit.getPlayer(uuid)?.displayName()!!)
 

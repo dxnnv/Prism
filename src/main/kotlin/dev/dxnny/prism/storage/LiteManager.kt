@@ -1,5 +1,6 @@
 package dev.dxnny.prism.storage
 
+import dev.dxnny.prism.Prism
 import dev.dxnny.prism.utils.ConsoleLog
 import org.bukkit.entity.Player
 import java.sql.Connection
@@ -113,9 +114,9 @@ class LiteManager(databasePath: String) {
         }
     }
     // Close the database connection
-    fun close() {
+    fun close(plugin: Prism) {
         try {
-            ConsoleLog.info("SQLite connection shutting down...")
+            plugin.logger.info("SQLite connection shutting down...")
             connection.close()
         } catch (e: SQLException) {
             e.printStackTrace()

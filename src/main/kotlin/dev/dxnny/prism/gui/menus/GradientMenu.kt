@@ -4,6 +4,7 @@ import dev.dxnny.prism.Prism.Companion.instance
 import dev.dxnny.prism.gui.items.*
 import dev.dxnny.prism.utils.GetItem
 import dev.dxnny.prism.utils.gradients.GradientManager
+import dev.dxnny.prism.utils.text.ColorUtils.miniToLegacy
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 import xyz.xenondevs.invui.gui.PagedGui
@@ -16,8 +17,10 @@ class GradientMenu {
 
     companion object {
         fun open(player: Player) {
-            val gradients: ConfigurationSection = instance.config.getConfigurationSection("gradients")!!
-            val guiConfig: ConfigurationSection = instance.config.getConfigurationSection("gui")!!
+            val config = instance.getConfiguration().get()
+
+            val gradients: ConfigurationSection = config!!.getConfigurationSection("gradients")!!
+            val guiConfig: ConfigurationSection = config.getConfigurationSection("gui")!!
 
             val allGradients = gradients.getKeys(false).toTypedArray()
             val items = mutableListOf<Item>()
@@ -42,7 +45,7 @@ class GradientMenu {
                 .build()
             // create window
             val window: Window = Window.single()
-                .setTitle(guiConfig.getString("title")!!)
+                .setTitle(miniToLegacy(guiConfig.getString("title")!!))
                 .setGui(gui)
                 .build(player)
             window.open()

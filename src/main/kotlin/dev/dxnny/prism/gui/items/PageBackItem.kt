@@ -14,7 +14,7 @@ import xyz.xenondevs.invui.item.builder.setDisplayName
 import xyz.xenondevs.invui.item.impl.controlitem.PageItem
 
 class PageBackItem : PageItem(false) {
-    private val backItemConfig: ConfigurationSection = instance.config.getConfigurationSection("gui.page-back")!!
+    private val backItemConfig: ConfigurationSection = instance.getConfiguration().get()!!.getConfigurationSection("gui.page-back")!!
     override fun getItemProvider(gui: PagedGui<*>?): ItemProvider {
         val builder = ItemBuilder(Material.getMaterial(backItemConfig.get("material").toString())!!)
         builder.setDisplayName(mmParse(backItemConfig.getString("name")!!))
