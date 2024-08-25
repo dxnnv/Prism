@@ -17,7 +17,7 @@ import xyz.xenondevs.invui.item.impl.controlitem.PageItem
 
 class ClearGradientItem : PageItem(false) {
     private val storage = instance.getStorage()
-    private val clearGradientConfig: ConfigurationSection = instance.getConfiguration().get()!!.getConfigurationSection("gui.clear-gradient")!!
+    private val clearGradientConfig: ConfigurationSection = instance.config.getConfigurationSection("gui.clear-gradient")!!
     override fun getItemProvider(gui: PagedGui<*>?): ItemProvider {
         val builder = ItemBuilder(Material.getMaterial(clearGradientConfig.get("material").toString())!!)
         builder.setDisplayName(mmParse(clearGradientConfig.getString("name")!!))

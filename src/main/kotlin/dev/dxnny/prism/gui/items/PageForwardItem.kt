@@ -14,7 +14,7 @@ import xyz.xenondevs.invui.item.builder.setDisplayName
 import xyz.xenondevs.invui.item.impl.controlitem.PageItem
 
 class PageForwardItem: PageItem(false) {
-    private val forwardItemConfig: ConfigurationSection = instance.getConfiguration().get()!!.getConfigurationSection("gui.page-forward")!!
+    private val forwardItemConfig: ConfigurationSection = instance.config.getConfigurationSection("gui.page-forward")!!
     override fun getItemProvider(gui: PagedGui<*>?): ItemProvider {
         val builder = ItemBuilder(Material.getMaterial(forwardItemConfig.get("material").toString())!!)
         builder.setDisplayName(mmParse(forwardItemConfig.getString("name")!!))

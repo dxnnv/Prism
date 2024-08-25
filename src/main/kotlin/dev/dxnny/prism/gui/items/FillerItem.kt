@@ -10,8 +10,8 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder
 import xyz.xenondevs.invui.item.builder.setDisplayName
 import xyz.xenondevs.invui.item.impl.SimpleItem
 
-class FillerItem : SimpleItem(ItemStack(Material.getMaterial(instance.getConfiguration().get()!!.getConfigurationSection("gui.filler")!!.get("material").toString())!!)) {
-    private val fillerGradientConfig: ConfigurationSection = instance.getConfiguration().get()!!.getConfigurationSection("gui.filler")!!
+class FillerItem : SimpleItem(ItemStack(Material.getMaterial(instance.config.getConfigurationSection("gui.filler")!!.get("material").toString())!!)) {
+    private val fillerGradientConfig: ConfigurationSection = instance.config.getConfigurationSection("gui.filler")!!
     override fun getItemProvider(): ItemProvider {
         val builder = ItemBuilder(Material.getMaterial(fillerGradientConfig.get("material").toString())!!)
             .setDisplayName(mmParse(fillerGradientConfig.getString("name")!!))

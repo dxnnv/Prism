@@ -17,9 +17,9 @@ class GradientMenu {
 
     companion object {
         fun open(player: Player) {
-            val config = instance.getConfiguration().get()
+            val config = instance.configuration
 
-            val gradients: ConfigurationSection = config!!.getConfigurationSection("gradients")!!
+            val gradients: ConfigurationSection = config.getConfigurationSection("gradients")!!
             val guiConfig: ConfigurationSection = config.getConfigurationSection("gui")!!
 
             val allGradients = gradients.getKeys(false).toTypedArray()

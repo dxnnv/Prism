@@ -7,10 +7,10 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 
 object GradientManager {
-    private val config = instance.getConfiguration().get()
+    private val config = instance.config
     @Suppress("unused")
     fun getGradientString(gradientId: String): String? {
-        val gradient: ConfigurationSection? = config!!.getConfigurationSection("gradients.$gradientId")
+        val gradient: ConfigurationSection? = config.getConfigurationSection("gradients.$gradientId")
         return gradient?.getString("gradient")
     }
 
@@ -19,11 +19,11 @@ object GradientManager {
     }
 
     fun gradientExists(id: String): Boolean {
-        return config!!.isConfigurationSection("gradients.$id")
+        return config.isConfigurationSection("gradients.$id")
     }
 
     fun getGradientComponent(id: String): Component {
-        val gradientConfig = config!!.getConfigurationSection("gradients.$id")
+        val gradientConfig = config.getConfigurationSection("gradients.$id")
         val gradientColor = gradientConfig!!.getString("gradient")!!
         val gradientName = gradientConfig.getString("name")
 

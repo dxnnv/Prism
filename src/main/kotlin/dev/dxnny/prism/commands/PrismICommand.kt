@@ -61,7 +61,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
                         return true
                     }
 
-                    plugin.reloadConfiguration()
+                    instance.configuration.reload()
                     Messages(plugin).reload()
                     sendMessage(sender, Lang.configReloaded)
                 }
@@ -129,7 +129,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
             return l
         } else if (args?.size == 3 && args[0] == "set" && hasPerm(sender, Permissions.PRISM_ADMIN)) {
             val l: MutableList<String> = mutableListOf()
-            instance.getConfiguration().get()!!.getConfigurationSection("gradients")!!.getKeys(false).toTypedArray().forEach {
+            instance.config.getConfigurationSection("gradients")!!.getKeys(false).toTypedArray().forEach {
                 l.add(it)
             }
             return l
