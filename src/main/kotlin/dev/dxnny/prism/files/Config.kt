@@ -3,42 +3,44 @@ package dev.dxnny.prism.files
 import dev.dxnny.prism.Prism
 import dev.dxnny.prism.Prism.Companion.instance
 import dev.dxnny.prism.utils.ConsoleLog
-import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
-class Config(private var plugin: Prism) {
+class Config(plugin: Prism): YamlConfiguration() {
     private var file: File? = null
-    private var customFile: FileConfiguration? = null
     private val version = instance.version
 
     init {
         val path = plugin.dataFolder
         file = File(path, "config.yml")
 
-        if (file?.exists() == false) {
+        if (!file!!.exists()) {
             plugin.saveDefaultConfig()
         } else {
             // If the file doesn't exist, create it
-            customFile = YamlConfiguration.loadConfiguration(file!!)
-            if (getConfigVersion() != this.version) {
+            loadConfiguration()
+            if (getConfigVersion() != version) {
                 // rename config to config_old.yml and save new config in its place
                 file!!.renameTo(File(path, "config_old.yml"))
                 plugin.saveDefaultConfig()
                 file = File(path, "config.yml")
-                plugin.reloadConfig()
                 ConsoleLog.info("\n\n\tA new config update has been applied!\n\tPlease copy over your settings from\n\tconfig_old.yml\n\tto config.yml")
+                plugin.reloadConfig()
+                loadConfiguration()
             }
         }
-        customFile = YamlConfiguration.loadConfiguration(file!!)
     }
 
-    fun get() = customFile
     fun reload() {
-        customFile = YamlConfiguration.loadConfiguration(file!!)
-        plugin.reloadConfig()
+        ConsoleLog.warn("Config reload called!")
+        loadConfiguration()
+        val testValue = this.getString("gui.gradient.lore-available")
+        ConsoleLog.warn("Test value after reload: $testValue")
     }
-
+    private fun loadConfiguration() {
+        ConsoleLog.warn("Loading config...")
+        this.load(file!!)
+    }
     // Config Version
-    private fun getConfigVersion() = get()?.getString("version", "1.0.0") ?: "0.0.0"
+    private fun getConfigVersion() = getString("version", "1.0.0") ?: "0.0.0"
 }

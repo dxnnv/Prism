@@ -19,7 +19,7 @@ class Prism : JavaPlugin() {
     }
 
     private var enabled = false
-    private lateinit var configuration: Config
+    lateinit var configuration: Config
     private lateinit var messages: Messages
     lateinit var manager: PluginManager
     private lateinit var storage: LiteManager
@@ -101,13 +101,6 @@ class Prism : JavaPlugin() {
 
     fun getMessages(): Messages {
         return messages
-    }
-
-    fun getConfiguration(): Config {
-        return configuration
-    }
-    fun reloadConfiguration() {
-        reloadConfig()
     }
 
     fun getStorage(): LiteManager {
