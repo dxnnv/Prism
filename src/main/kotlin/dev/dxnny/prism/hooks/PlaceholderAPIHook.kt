@@ -36,17 +36,20 @@ class PlaceholderAPIHook : PlaceholderExpansion() {
 
         val gradientConfig = instance.config.getConfigurationSection("gradients.$gradientId")
         val gradientColor = gradientConfig!!.getString("gradient")!!
+        val username = Bukkit.getPlayer(uuid)?.name()!!
         val displayName = miniMessage().serialize(Bukkit.getPlayer(uuid)?.displayName()!!)
 
         return when (placeholder) {
             "gradient_color" -> {
                 gradientColor
             }
-            "displayname" -> {
-                miniToLegacy("$gradientColor$displayName<reset>")
-            }
             "gradient_id" -> {
                 gradientId
+            }
+            "name" -> {
+                miniToLegacy("$gradientColor$username<reset>")
+            "displayname" -> {
+                miniToLegacy("$gradientColor$displayName<reset>")
             }
             else -> {
                 "Null"
