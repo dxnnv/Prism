@@ -32,13 +32,9 @@ class Config(plugin: Prism): YamlConfiguration() {
     }
 
     fun reload() {
-        ConsoleLog.warn("Config reload called!")
         loadConfiguration()
-        val testValue = this.getString("gui.gradient.lore-available")
-        ConsoleLog.warn("Test value after reload: $testValue")
     }
     private fun loadConfiguration() {
-        ConsoleLog.warn("Loading config...")
         this.load(file!!)
     }
     // Config Version

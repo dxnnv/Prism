@@ -33,21 +33,19 @@ class Prism : JavaPlugin() {
         instance = this
 
         // config
-        logger.info("Loading config.yml...")
+        logger.info("Loading files...")
         this.configuration = Config(this)
         saveConfig()
         configuration.reload()
         logger.info("Loaded config.yml")
 
         // messages
-        logger.info("Loading messages.yml...")
         this.messages = Messages(this)
         messages.setup()
         updateMessages(this)
         logger.info("Loaded messages.yml")
 
         // Load data
-        logger.info("Loading player data...")
         val dbPath = this.dataFolder.path + "/prism.db"
         this.storage = LiteManager(dbPath)
         if (this.server.onlinePlayers.isNotEmpty()) {
@@ -56,21 +54,19 @@ class Prism : JavaPlugin() {
         logger.info("Loaded player data")
 
         // commands
-        logger.info("Registering Commands...")
+        logger.info("Registering commands + events...")
         CommandManager(this)
-        logger.info("Registered Commands!")
+        logger.info("Registered commands!")
 
         // events
-        logger.info("Registering Events...")
         manager.registerEvents(PlayerJoinEvent(), this)
         manager.registerEvents(PlayerQuitEvent(), this)
-        logger.info("Registered Events!")
+        logger.info("Registered events!")
 
         // PlaceholderAPI
         logger.info("Attempting to find PlaceholderAPI...")
         if (manager.getPlugin("PlaceholderAPI") != null) {
             PlaceholderAPIHook().register()
-            logger.info("PlaceholderAPI expansion registered.")
         } else {
             logger.warning("Unable to find PlaceholderAPI! Disabling plugin...")
             this.manager.disablePlugin(this)
