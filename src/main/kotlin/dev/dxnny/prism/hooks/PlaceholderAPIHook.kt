@@ -38,7 +38,7 @@ class PlaceholderAPIHook : PlaceholderExpansion() {
         val gradientColor = gradientConfig!!.getString("gradient")!!
         val username = Bukkit.getPlayer(uuid)?.name()!!
         val displayName = miniMessage().serialize(Bukkit.getPlayer(uuid)?.displayName()!!)
-        // val customName = getPAPIPlaceholder(instabce.config.getString("options.name.alt-placeholder")!!
+        // val customName = getPAPIPlaceholder(instabce.config.getString("options.alt-placeholder.placeholder")!!
 
         return when (placeholder) {
             "gradient_color" -> {
