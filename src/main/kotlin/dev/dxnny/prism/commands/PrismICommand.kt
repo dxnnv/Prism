@@ -5,6 +5,7 @@ import dev.dxnny.prism.Prism.Companion.instance
 import dev.dxnny.prism.commands.manager.ICommand
 import dev.dxnny.prism.files.Lang
 import dev.dxnny.prism.utils.CheckPermission.hasPerm
+import dev.dxnny.prism.utils.ConsoleLog.logMessage
 import dev.dxnny.prism.utils.Permissions
 import dev.dxnny.prism.utils.gradients.GradientManager
 import dev.dxnny.prism.utils.text.HelpMessage
@@ -59,10 +60,13 @@ class PrismICommand(private var plugin: Prism) : ICommand {
                         sendMessage(sender, Lang.noPermission)
                         return true
                     }
-
                     instance.configuration.reload()
                     plugin.getMessages().reload()
-                    sendMessage(sender, Lang.configReloaded)
+                    if (sender == instance.console) {
+                        logMessage("&aSuccessfully reloaded!")
+                    } else {
+                        sendMessage(sender, Lang.configReloaded)
+                    }
                 }
 
                 "help" -> {

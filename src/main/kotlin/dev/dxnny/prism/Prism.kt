@@ -8,6 +8,8 @@ import dev.dxnny.prism.files.Lang.Companion.updateMessages
 import dev.dxnny.prism.files.Messages
 import dev.dxnny.prism.hooks.PlaceholderAPIHook
 import dev.dxnny.prism.storage.LiteManager
+import dev.dxnny.prism.utils.ConsoleLog.logMessage
+import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.java.JavaPlugin
@@ -18,11 +20,11 @@ class Prism : JavaPlugin() {
         lateinit var instance: Prism
     }
 
-    private var enabled = false
+    lateinit var console: ConsoleCommandSender
     lateinit var configuration: Config
     private lateinit var messages: Messages
-    lateinit var manager: PluginManager
     private lateinit var storage: LiteManager
+    lateinit var manager: PluginManager
     val version = "1.0.0"
 
     override fun onLoad() {
@@ -31,19 +33,27 @@ class Prism : JavaPlugin() {
 
     override fun onEnable() {
         instance = this
-
+        console = this.server.consoleSender
+        // startup message
+        logMessage(" ")
+        logMessage("&c ______   &6______     &e__     &a______     &b__    __")
+        logMessage("&c/\\  == \\ &6/\\  == \\   &e/\\ \\   &a/\\  ___\\   &b/\\ \"-./  \\")
+        logMessage("&c\\ \\  _-/ &6\\ \\  __<   &e\\ \\ \\  &a\\ \\___  \\  &b\\ \\ \\-./\\ \\")
+        logMessage("&c \\ \\_\\   &6 \\ \\_\\ \\_\\ &e \\ \\_\\ &a \\/\\_____\\ &b \\ \\_\\ \\ \\_\\")
+        logMessage("&c  \\/_/   &6  \\/_/ /_/ &e  \\/_/ &a  \\/_____/ &b  \\/_/  \\/_/")
+        logMessage(" ")
         // config
-        logger.info("Loading files...")
+        logMessage("&7Loading files...")
         this.configuration = Config(this)
         saveConfig()
         configuration.reload()
-        logger.info("Loaded config.yml")
+        logMessage(" &8\\- &aLoaded config.yml")
 
         // messages
         this.messages = Messages(this)
         messages.setup()
         updateMessages(this)
-        logger.info("Loaded messages.yml")
+        logMessage(" &8\\- &aLoaded messages.yml")
 
         // Load data
         val dbPath = this.dataFolder.path + "/prism.db"
@@ -51,28 +61,26 @@ class Prism : JavaPlugin() {
         if (this.server.onlinePlayers.isNotEmpty()) {
             storage.loadAllOnlinePlayersGradients(this.server.onlinePlayers)
         }
-        logger.info("Loaded player data")
+        logMessage(" &8\\- &aLoaded prism.db")
 
         // commands
-        logger.info("Registering commands + events...")
+        logMessage("&7Registering commands + events...")
         CommandManager(this)
-        logger.info("Registered commands!")
+        logMessage(" &8\\- &aRegistered commands")
 
         // events
         manager.registerEvents(PlayerJoinEvent(), this)
         manager.registerEvents(PlayerQuitEvent(), this)
-        logger.info("Registered events!")
+        logMessage(" &8\\- &aRegistered events")
 
         // PlaceholderAPI
-        logger.info("Attempting to find PlaceholderAPI...")
+        logMessage("&7Registering PlaceholderAPI expansion...")
         if (manager.getPlugin("PlaceholderAPI") != null) {
             PlaceholderAPIHook().register()
         } else {
             logger.warning("Unable to find PlaceholderAPI! Disabling plugin...")
             this.manager.disablePlugin(this)
         }
-
-        this.enabled = true
     }
 
     override fun onDisable() {
@@ -102,5 +110,4 @@ class Prism : JavaPlugin() {
     fun getStorage(): LiteManager {
         return storage
     }
-
 }
