@@ -4,7 +4,6 @@ import dev.dxnny.prism.Prism
 import dev.dxnny.prism.Prism.Companion.instance
 import dev.dxnny.prism.commands.manager.ICommand
 import dev.dxnny.prism.files.Lang
-import dev.dxnny.prism.files.Messages
 import dev.dxnny.prism.utils.CheckPermission.hasPerm
 import dev.dxnny.prism.utils.Permissions
 import dev.dxnny.prism.utils.gradients.GradientManager
@@ -62,7 +61,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
                     }
 
                     instance.configuration.reload()
-                    Messages(plugin).reload()
+                    plugin.getMessages().reload()
                     sendMessage(sender, Lang.configReloaded)
                 }
 
