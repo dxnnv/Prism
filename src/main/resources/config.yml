@@ -1,3 +1,11 @@
+options:
+  # If you want to use a different placeholder as the player's name
+  # Uses any PlaceholderAPI placeholder. For example: if using "%essentials_nickname%",
+  # %prism_customname% will return %essentials_nickname% with the gradient applied
+  alt-placeholder:
+    enabled: true
+    placeholder: "%essentials_nickname%"
+
 gradients:
   prism:
     name: "Prism Gradient"
