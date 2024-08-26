@@ -2,6 +2,7 @@ package dev.dxnny.prism.hooks
 
 import dev.dxnny.infrastructure.utils.text.ColorUtils.miniToLegacy
 import dev.dxnny.prism.Prism.Companion.instance
+import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import net.kyori.adventure.text.minimessage.MiniMessage.miniMessage
 import org.bukkit.Bukkit
@@ -32,38 +33,47 @@ class PlaceholderAPIHook : PlaceholderExpansion() {
     }
 
     private fun prismPlaceholders(placeholder: String, uuid: UUID): String {
-        val gradientId = instance.getStorage().getGradientId(uuid) ?: return "Null"
 
+        val gradientId = instance.getStorage().getGradientId(uuid) ?: return "Null"
         val gradientConfig = instance.config.getConfigurationSection("gradients.$gradientId")
         val gradientColor = gradientConfig!!.getString("gradient")!!
-        val username = Bukkit.getPlayer(uuid)?.name()!!
-        val displayName = miniMessage().serialize(Bukkit.getPlayer(uuid)?.displayName()!!)
-        // val customName = getPAPIPlaceholder(instabce.config.getString("options.alt-placeholder.placeholder")!!
 
-        return when (placeholder) {
-            "gradient_color" -> {
-                gradientColor
-            }
-            "gradient_id" -> {
-                gradientId
-            }
-            "name" -> {
-                miniToLegacy("$gradientColor$username<reset>")
-            "displayname" -> {
-                miniToLegacy("$gradientColor$displayName<reset>")
-            }
-            "customname" -> {
-                if (customName != null) {
-                    miniToLegacy("$gradientColor$customName<reset>")
-                } else {
+        val player: Player? = Bukkit.getPlayer(uuid)
+        if (player != null) {
+            val username = Bukkit.getPlayer(uuid)?.name()!!
+            val displayName = miniMessage().serialize(Bukkit.getPlayer(uuid)?.displayName()!!)
+            val customName = instance.config.getString("options.alt-placeholder.placeholder")?.let { PlaceholderAPI.setPlaceholders(player, it) }
+
+            return when (placeholder) {
+                "gradient_color" -> {
+                    gradientColor
+                }
+
+                "gradient_id" -> {
+                    gradientId
+                }
+
+                "name" -> {
+                    miniToLegacy("$gradientColor$username<reset>")
+                }
+
+                "displayname" -> {
+                    miniToLegacy("$gradientColor$displayName<reset>")
+                }
+
+                "customname" -> {
+                    if (customName != null) {
+                        miniToLegacy("$gradientColor$customName<reset>")
+                    } else {
+                        "Null"
+                    }
+                }
+
+                else -> {
                     "Null"
                 }
             }
-            else -> {
-                "Null"
-            }
         }
+        return "Null"
     }
-
-
 }
