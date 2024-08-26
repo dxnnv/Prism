@@ -29,7 +29,7 @@ class CommandManager(private var plugin: Prism) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         ICommands.forEach { c ->
             if (command.name.equals(c.name(), ignoreCase = true)) {
-                if ((sender is Player && hasPerm(sender, c.permission()) || sender is ConsoleCommandSender)) {
+                if (hasPerm(sender, c.permission())) {
                     c.onCommand(sender, command, c.name(), args)
                     return true
                 }
