@@ -2,11 +2,12 @@ package dev.dxnny.prism.commands.manager
 
 import dev.dxnny.infrastructure.commands.ICommand
 import dev.dxnny.prism.Prism
-import dev.dxnny.prism.commands.PrismICommand
 import dev.dxnny.prism.commands.GradientICommand
+import dev.dxnny.prism.commands.PrismICommand
 import dev.dxnny.prism.utils.CheckPermission.hasPerm
-import org.bukkit.command.*
-import org.bukkit.entity.Player
+import org.bukkit.command.Command
+import org.bukkit.command.CommandExecutor
+import org.bukkit.command.CommandSender
 
 class CommandManager(private var plugin: Prism) : CommandExecutor {
 
