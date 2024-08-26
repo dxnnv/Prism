@@ -60,4 +60,4 @@ gui:
       - ""
       - "<#FFD700>Obtain from <u>/coinshop<u>!"
 
-version: "1.0.0"
+config-version: "0.0.2"
