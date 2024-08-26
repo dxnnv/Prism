@@ -1,14 +1,16 @@
 package dev.dxnny.prism
 
+import dev.dxnny.infrastructure.Infrastructure
+import dev.dxnny.infrastructure.files.Config
+import dev.dxnny.infrastructure.utils.ConsoleLog.logMessage
 import dev.dxnny.prism.commands.manager.CommandManager
 import dev.dxnny.prism.events.PlayerJoinEvent
 import dev.dxnny.prism.events.PlayerQuitEvent
-import dev.dxnny.prism.files.Config
+import dev.dxnny.prism.files.Lang
 import dev.dxnny.prism.files.Lang.Companion.updateMessages
 import dev.dxnny.prism.files.Messages
 import dev.dxnny.prism.hooks.PlaceholderAPIHook
 import dev.dxnny.prism.storage.LiteManager
-import dev.dxnny.prism.utils.ConsoleLog.logMessage
 import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.PluginManager
@@ -33,7 +35,11 @@ class Prism : JavaPlugin() {
 
     override fun onEnable() {
         instance = this
+        val lib = Infrastructure()
+        lib.setPlugin(this)
+        lib.setPluginLogPrefix("&8[&dPrism&8] ")
         console = this.server.consoleSender
+
         // startup message
         logMessage(" ")
         logMessage("&c ______   &6______     &e__     &a______     &b__    __")
@@ -53,6 +59,7 @@ class Prism : JavaPlugin() {
         this.messages = Messages(this)
         messages.setup()
         updateMessages(this)
+        lib.setPluginPrefix(Lang.prefix)
         logMessage(" &8\\- &aLoaded messages.yml")
 
         // Load data

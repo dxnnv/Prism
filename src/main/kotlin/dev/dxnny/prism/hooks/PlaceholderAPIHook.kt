@@ -1,7 +1,7 @@
 package dev.dxnny.prism.hooks
 
+import dev.dxnny.infrastructure.utils.text.ColorUtils.miniToLegacy
 import dev.dxnny.prism.Prism.Companion.instance
-import dev.dxnny.prism.utils.text.ColorUtils.miniToLegacy
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import net.kyori.adventure.text.minimessage.MiniMessage.miniMessage
 import org.bukkit.Bukkit

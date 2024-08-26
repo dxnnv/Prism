@@ -1,5 +1,6 @@
 package dev.dxnny.prism.commands.manager
 
+import dev.dxnny.infrastructure.commands.ICommand
 import dev.dxnny.prism.Prism
 import dev.dxnny.prism.commands.PrismICommand
 import dev.dxnny.prism.commands.GradientICommand

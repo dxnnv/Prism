@@ -1,6 +1,6 @@
 package dev.dxnny.prism.utils
 
-enum class Permissions(val perm: String) {
+enum class Permissions(val p: String) {
 
     // WILDCARD PERMISSION
     WILDCARD("prism.*"),

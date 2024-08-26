@@ -1,7 +1,7 @@
-package dev.dxnny.prism.utils.gradients
+package dev.dxnny.prism.utils
 
+import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParse
 import dev.dxnny.prism.Prism.Companion.instance
-import dev.dxnny.prism.utils.text.MessageUtils.mmParse
 import net.kyori.adventure.text.Component
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player

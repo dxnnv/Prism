@@ -1,11 +1,11 @@
 package dev.dxnny.prism.utils.text
 
+import dev.dxnny.infrastructure.commands.ICommand
+import dev.dxnny.infrastructure.utils.text.MessageUtils.sendMessage
+import dev.dxnny.infrastructure.utils.text.MessageUtils.sendSpacer
 import dev.dxnny.prism.commands.manager.CommandManager.Companion.getCommands
-import dev.dxnny.prism.commands.manager.ICommand
 import dev.dxnny.prism.files.Lang
 import dev.dxnny.prism.utils.CheckPermission.hasPerm
-import dev.dxnny.prism.utils.text.MessageUtils.sendMessage
-import dev.dxnny.prism.utils.text.MessageUtils.sendSpacer
 import org.bukkit.command.CommandSender
 
 class HelpMessage {

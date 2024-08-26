@@ -1,10 +1,10 @@
 package dev.dxnny.prism.gui.menus
 
+import dev.dxnny.infrastructure.utils.text.ColorUtils.miniToLegacy
 import dev.dxnny.prism.Prism.Companion.instance
 import dev.dxnny.prism.gui.items.*
 import dev.dxnny.prism.utils.GetItem
-import dev.dxnny.prism.utils.gradients.GradientManager
-import dev.dxnny.prism.utils.text.ColorUtils.miniToLegacy
+import dev.dxnny.prism.utils.GradientManager
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 import xyz.xenondevs.invui.gui.PagedGui

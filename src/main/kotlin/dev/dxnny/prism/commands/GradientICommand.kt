@@ -1,10 +1,10 @@
 package dev.dxnny.prism.commands
 
+import dev.dxnny.infrastructure.utils.text.MessageUtils.sendMessage
 import dev.dxnny.prism.Prism
-import dev.dxnny.prism.commands.manager.ICommand
+import dev.dxnny.infrastructure.commands.ICommand
 import dev.dxnny.prism.gui.menus.GradientMenu
 import dev.dxnny.prism.utils.Permissions
-import dev.dxnny.prism.utils.text.MessageUtils.sendMessage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -22,8 +22,8 @@ class GradientICommand(private var plugin: Prism) : ICommand {
         return "Opens the gradients GUI"
     }
 
-    override fun permission(): Permissions {
-        return Permissions.GRADIENT_GUI
+    override fun permission(): String {
+        return Permissions.GRADIENT_GUI.p
     }
 
     override fun onCommand(sender: CommandSender, command: Command, s: String, args: Array<out String>?): Boolean {

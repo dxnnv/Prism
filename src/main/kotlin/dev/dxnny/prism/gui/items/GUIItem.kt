@@ -1,10 +1,10 @@
 package dev.dxnny.prism.gui.items
 
+import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParseWithTags
+import dev.dxnny.infrastructure.utils.text.MessageUtils.sendMessage
 import dev.dxnny.prism.Prism.Companion.instance
 import dev.dxnny.prism.files.Lang
-import dev.dxnny.prism.utils.gradients.GradientManager
-import dev.dxnny.prism.utils.text.MessageUtils.mmParseWithTags
-import dev.dxnny.prism.utils.text.MessageUtils.sendMessage
+import dev.dxnny.prism.utils.GradientManager
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType

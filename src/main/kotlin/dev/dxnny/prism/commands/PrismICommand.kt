@@ -1,16 +1,16 @@
 package dev.dxnny.prism.commands
 
+import dev.dxnny.infrastructure.commands.ICommand
+import dev.dxnny.infrastructure.utils.ConsoleLog.logMessage
+import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParseWithTags
+import dev.dxnny.infrastructure.utils.text.MessageUtils.sendMessage
 import dev.dxnny.prism.Prism
 import dev.dxnny.prism.Prism.Companion.instance
-import dev.dxnny.prism.commands.manager.ICommand
 import dev.dxnny.prism.files.Lang
 import dev.dxnny.prism.utils.CheckPermission.hasPerm
-import dev.dxnny.prism.utils.ConsoleLog.logMessage
+import dev.dxnny.prism.utils.GradientManager
 import dev.dxnny.prism.utils.Permissions
-import dev.dxnny.prism.utils.gradients.GradientManager
 import dev.dxnny.prism.utils.text.HelpMessage
-import dev.dxnny.prism.utils.text.MessageUtils.mmParseWithTags
-import dev.dxnny.prism.utils.text.MessageUtils.sendMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -31,8 +31,8 @@ class PrismICommand(private var plugin: Prism) : ICommand {
         return "Prism admin command"
     }
 
-    override fun permission(): Permissions {
-        return Permissions.PRISM_ADMIN
+    override fun permission(): String {
+        return Permissions.PRISM_ADMIN.p
     }
 
     override fun onCommand(sender: CommandSender, command: Command, s: String, args: Array<out String>?): Boolean {
@@ -42,7 +42,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
         } else {
             when (args[0].lowercase()) {
                 "set" -> {
-                    if (!hasPerm(sender, Permissions.PRISM_ADMIN)) {
+                    if (!hasPerm(sender, Permissions.PRISM_ADMIN.p)) {
                         sendMessage(sender, Lang.noPermission)
                         return true
                     }
@@ -56,7 +56,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
                 }
 
                 "reload" -> {
-                    if (!hasPerm(sender, Permissions.PRISM_ADMIN)) {
+                    if (!hasPerm(sender, Permissions.PRISM_ADMIN.p)) {
                         sendMessage(sender, Lang.noPermission)
                         return true
                     }
@@ -70,7 +70,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
                 }
 
                 "help" -> {
-                    if (!hasPerm(sender, Permissions.PRISM_ADMIN)) {
+                    if (!hasPerm(sender, Permissions.PRISM_ADMIN.p)) {
                         sendMessage(sender, Lang.noPermission)
                         return true
                     }
@@ -79,7 +79,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
                 }
 
                 "clear" -> {
-                    if (!hasPerm(sender, Permissions.PRISM_ADMIN)) {
+                    if (!hasPerm(sender, Permissions.PRISM_ADMIN.p)) {
                         sendMessage(sender, Lang.noPermission)
                         return true
                     }
@@ -93,7 +93,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
                 }
 
                 "debug" -> {
-                    if (!hasPerm(sender, Permissions.PRISM_ADMIN)) {
+                    if (!hasPerm(sender, Permissions.PRISM_ADMIN.p)) {
                         sendMessage(sender, Lang.noPermission)
                         return true
                     }
@@ -126,11 +126,11 @@ class PrismICommand(private var plugin: Prism) : ICommand {
         if (sender !is Player) return null
         if (args?.size == 1) {
             return mutableListOf("help", "set", "clear", "reload")
-        } else if (args?.size == 2 && (args[0] == "clear" || args[0] == "set") && hasPerm(sender, Permissions.PRISM_ADMIN)) {
+        } else if (args?.size == 2 && (args[0] == "clear" || args[0] == "set") && hasPerm(sender, Permissions.PRISM_ADMIN.p)) {
             val l: MutableList<String> = mutableListOf()
             Bukkit.getOnlinePlayers().forEach { l.add(it.name) }
             return l
-        } else if (args?.size == 3 && args[0] == "set" && hasPerm(sender, Permissions.PRISM_ADMIN)) {
+        } else if (args?.size == 3 && args[0] == "set" && hasPerm(sender, Permissions.PRISM_ADMIN.p)) {
             val l: MutableList<String> = mutableListOf()
             instance.config.getConfigurationSection("gradients")!!.getKeys(false).toTypedArray().forEach {
                 l.add(it)

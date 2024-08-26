@@ -27,6 +27,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
+    implementation(files("$projectDir/libraries/Infrastructure-0.0.1.jar"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("xyz.xenondevs.invui:invui-kotlin:1.36")
     implementation("xyz.xenondevs.invui:invui-core:1.36")

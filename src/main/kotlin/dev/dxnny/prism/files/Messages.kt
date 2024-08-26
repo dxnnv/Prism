@@ -1,9 +1,9 @@
 package dev.dxnny.prism.files
 
+import dev.dxnny.infrastructure.utils.ConsoleLog
 import dev.dxnny.prism.files.Lang.Companion.updateMessages
 import dev.dxnny.prism.Prism
 import dev.dxnny.prism.Prism.Companion.instance
-import dev.dxnny.prism.utils.ConsoleLog
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File

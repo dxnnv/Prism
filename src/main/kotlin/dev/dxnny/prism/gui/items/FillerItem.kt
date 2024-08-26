@@ -1,7 +1,7 @@
 package dev.dxnny.prism.gui.items
 
+import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParse
 import dev.dxnny.prism.Prism.Companion.instance
-import dev.dxnny.prism.utils.text.MessageUtils.mmParse
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemStack
