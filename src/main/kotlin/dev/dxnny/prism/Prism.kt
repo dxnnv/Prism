@@ -27,6 +27,7 @@ class Prism : JavaPlugin() {
     private lateinit var messages: Messages
     private lateinit var storage: LiteManager
     lateinit var manager: PluginManager
+    lateinit var infrastructure: Infrastructure
     val version = "0.0.2"
 
     override fun onLoad() {
@@ -35,9 +36,8 @@ class Prism : JavaPlugin() {
 
     override fun onEnable() {
         instance = this
-        val lib = Infrastructure()
-        lib.setPlugin(this)
-        lib.setPluginLogPrefix("&8[&dPrism&8] ")
+        infrastructure = Infrastructure(this)
+        infrastructure.setPluginLogPrefix("&8[&dPrism&8] ")
         console = this.server.consoleSender
 
         // startup message
@@ -51,15 +51,13 @@ class Prism : JavaPlugin() {
         // config
         logMessage("&7Loading files...")
         this.configuration = Config(this)
-        saveConfig()
-        configuration.reload()
         logMessage(" &8\\- &aLoaded config.yml")
 
         // messages
         this.messages = Messages(this)
         messages.setup()
         updateMessages(this)
-        lib.setPluginPrefix(Lang.prefix)
+        infrastructure.setPluginPrefix(Lang.prefix)
         logMessage(" &8\\- &aLoaded messages.yml")
 
         // Load data
@@ -82,7 +80,7 @@ class Prism : JavaPlugin() {
 
         // PlaceholderAPI
         logMessage("&7Registering PlaceholderAPI expansion...")
-        if (manager.getPlugin("PlaceholderAPI") != null) {
+        if (manager.isPluginEnabled("PlaceholderAPI")) {
             PlaceholderAPIHook().register()
         } else {
             logger.warning("Unable to find PlaceholderAPI! Disabling plugin...")
@@ -97,7 +95,7 @@ class Prism : JavaPlugin() {
             logger.severe("Error saving data: ${e.message}")
             e.printStackTrace()
         } finally {
-            storage.close(this)
+            storage.close()
         }
     }
 
