@@ -51,5 +51,4 @@ class GradientMenu {
             window.open()
         }
     }
-
 }
