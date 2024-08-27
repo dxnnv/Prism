@@ -27,7 +27,7 @@ class ClearGradientItem : PageItem(false) {
     override fun handleClick(clickType: ClickType, player: Player, event: InventoryClickEvent) {
         if (clickType == ClickType.LEFT){
             if (!storage.getGradientId(player.uniqueId).isNullOrEmpty()) {
-                storage.deletePlayerGradient(player.uniqueId)
+                storage.clearPlayerGradient(player.uniqueId)
                 sendMessage(player, Lang.gradientCleared)
             } else {
                 sendMessage(player, Lang.noGradientActive)

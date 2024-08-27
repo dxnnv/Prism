@@ -1,6 +1,6 @@
 package dev.dxnny.prism.storage
 
-import dev.dxnny.prism.Prism
+import dev.dxnny.infrastructure.utils.ConsoleLog.logMessage
 import org.bukkit.entity.Player
 import java.sql.Connection
 import java.sql.DriverManager
@@ -74,48 +74,66 @@ class LiteManager(databasePath: String) {
         return playerGradients[uuid]
     }
 
-    // Delete a player's gradient entry from the map
-    fun deletePlayerGradient(uuid: UUID) {
-        playerGradients.remove(uuid)
+    // Mark a player's gradient entry as deleted in the map, so that it can be removed from table when saving
+    fun clearPlayerGradient(uuid: UUID) {
+        playerGradients[uuid] = "null"
     }
 
     // Save all player gradients to the database
     fun saveAllPlayerGradients() {
-        val sql = """
-            INSERT INTO player_gradients (uuid, gradientId)
-            VALUES (?, ?)
-            ON CONFLICT(uuid) DO UPDATE SET gradientId = excluded.gradientId
+        val insertOrUpdateSql = """
+        INSERT INTO player_gradients (uuid, gradientId)
+        VALUES (?, ?)
+        ON CONFLICT(uuid) DO UPDATE SET gradientId = excluded.gradientId
         """.trimIndent()
 
-        connection.prepareStatement(sql).use { preparedStatement ->
-            playerGradients.forEach { (uuid, gradientId) ->
-                preparedStatement.setString(1, uuid.toString())
-                preparedStatement.setString(2, gradientId)
-                preparedStatement.addBatch()
+        val deleteSql = "DELETE FROM player_gradients WHERE uuid = ?"
+
+        connection.prepareStatement(insertOrUpdateSql).use { insertStatement ->
+            connection.prepareStatement(deleteSql).use { deleteStatement ->
+                playerGradients.forEach { (uuid, gradientId) ->
+                    if (gradientId == "null") {
+                        deleteStatement.setString(1, uuid.toString())
+                        deleteStatement.addBatch()
+                    } else {
+                        insertStatement.setString(1, uuid.toString())
+                        insertStatement.setString(2, gradientId)
+                        insertStatement.addBatch()
+                    }
+                }
+                deleteStatement.executeBatch()
+                insertStatement.executeBatch()
             }
-            preparedStatement.executeBatch()
         }
     }
 
     // Saves a player's gradient to database
     fun savePlayerGradient(uuid: UUID, gradientId: String) {
-        val sql = """
+        if (gradientId == "null") {
+            val deleteSql = "DELETE FROM player_gradients WHERE uuid = ?"
+            connection.prepareStatement(deleteSql).use { preparedStatement ->
+                preparedStatement.setString(1, uuid.toString())
+                preparedStatement.executeUpdate()
+            }
+        } else {
+            val sql = """
             INSERT INTO player_gradients (uuid, gradientId)
             VALUES (?, ?)
             ON CONFLICT(uuid) DO UPDATE SET gradientId = excluded.gradientId
-        """.trimIndent()
+            """.trimIndent()
 
-        connection.prepareStatement(sql).use { preparedStatement ->
-            preparedStatement.setString(1, uuid.toString())
-            preparedStatement.setString(2, gradientId)
-            preparedStatement.addBatch()
-            preparedStatement.executeBatch()
+            connection.prepareStatement(sql).use { preparedStatement ->
+                preparedStatement.setString(1, uuid.toString())
+                preparedStatement.setString(2, gradientId)
+                preparedStatement.addBatch()
+                preparedStatement.executeBatch()
+            }
         }
     }
     // Close the database connection
-    fun close(plugin: Prism) {
+    fun close() {
         try {
-            plugin.logger.info("SQLite connection shutting down...")
+            logMessage("&7SQLite connection shutting down...")
             connection.close()
         } catch (e: SQLException) {
             e.printStackTrace()

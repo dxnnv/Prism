@@ -147,7 +147,7 @@ class PrismICommand(private var plugin: Prism) : ICommand {
             sendMessage(sender, Lang.invalidPlayer)
         } else {
             sender.sendMessage(mmParseWithTags(Lang.gradientClearedOther, Placeholder.component("target", target.name())))
-            instance.getStorage().deletePlayerGradient(target.uniqueId)
+            instance.getStorage().clearPlayerGradient(target.uniqueId)
         }
     }
 }
