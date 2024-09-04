@@ -26,11 +26,12 @@ class GradientMenu {
             val items = mutableListOf<Item>()
 
             allGradients.forEach { gradientId ->
-                val unlocked = GradientManager.hasGradientPermission(player, gradientId)
-                val gradientItem = GetItem.getItem("gradients.$gradientId", unlocked)
-                val invuiItem: Item = GUIItem(ItemBuilder(gradientItem!!), gradientId)
-                items.add(invuiItem)
-
+                if (!gradients.getBoolean("${gradientId}.remove-from-gui")) {
+                    val unlocked = GradientManager.hasGradientPermission(player, gradientId)
+                    val gradientItem = GetItem.getItem("gradients.$gradientId", unlocked)
+                    val invuiItem: Item = GUIItem(ItemBuilder(gradientItem!!), gradientId)
+                    items.add(invuiItem)
+                }
             }
 
             // make gui
