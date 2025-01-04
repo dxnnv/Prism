@@ -1,4 +1,16 @@
 import java.nio.file.Files
+buildscript {
+    @Suppress("UnstableApiUsage")
+    configurations {
+        classpath {
+            resolutionStrategy {
+                //in order to handle jackson's higher release version in shadow, this needs to be upgraded to latest.
+                force("org.ow2.asm:asm:9.7")
+                force("org.ow2.asm:asm-commons:9.7")
+            }
+        }
+    }
+}
 
 plugins {
     kotlin("jvm") version "2.0.20"
@@ -6,7 +18,7 @@ plugins {
 }
 
 group = "dev.dxnny"
-version = "0.0.2"
+version = "0.0.4"
 
 repositories {
     mavenCentral()
@@ -25,17 +37,18 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
-    implementation(files("$projectDir/libraries/Infrastructure-0.0.1.jar"))
+    implementation(files("$projectDir/libraries/Infrastructure-0.0.2.jar"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("xyz.xenondevs.invui:invui-kotlin:1.36")
-    implementation("xyz.xenondevs.invui:invui-core:1.36")
-    implementation("xyz.xenondevs.invui:inventory-access-r16:1.36")
-    implementation("xyz.xenondevs.invui:inventory-access-r17:1.36")
-    implementation("xyz.xenondevs.invui:inventory-access-r18:1.36")
-    implementation("xyz.xenondevs.invui:inventory-access-r19:1.36")
-    implementation("xyz.xenondevs.invui:inventory-access-r20:1.33")
+    implementation("xyz.xenondevs.invui:invui-core:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r16:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r17:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r18:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r19:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r20:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r21:1.43")
 }
 
 val targetJavaVersion = 21

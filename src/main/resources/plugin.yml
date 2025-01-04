@@ -1,7 +1,7 @@
 name: Prism
 version: '${version}'
 main: dev.dxnny.prism.Prism
-api-version: '1.20'
+api-version: '1.21'
 authors: [ danny ]
 description: Color your displayname with custom gradients!
 website: https://dxnny.dev/
