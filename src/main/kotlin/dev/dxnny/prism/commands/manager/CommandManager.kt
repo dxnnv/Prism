@@ -13,7 +13,7 @@ class CommandManager(private var plugin: Prism) : CommandExecutor {
 
     init {
         ICommands.add(PrismICommand(plugin))
-        ICommands.add(GradientICommand(plugin))
+        ICommands.add(GradientICommand())
         ICommands.forEach {
             plugin.getCommand(it.name())!!.setExecutor(it)
             plugin.getCommand(it.name())!!.tabCompleter = it

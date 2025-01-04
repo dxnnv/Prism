@@ -1,7 +1,6 @@
 package dev.dxnny.prism.commands
 
 import dev.dxnny.infrastructure.utils.text.MessageUtils.sendMessage
-import dev.dxnny.prism.Prism
 import dev.dxnny.infrastructure.commands.ICommand
 import dev.dxnny.prism.gui.menus.GradientMenu
 import dev.dxnny.prism.utils.Permissions
@@ -9,7 +8,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GradientICommand(private var plugin: Prism) : ICommand {
+class GradientICommand : ICommand {
     override fun name(): String {
         return "gradients"
     }
@@ -28,7 +27,7 @@ class GradientICommand(private var plugin: Prism) : ICommand {
 
     override fun onCommand(sender: CommandSender, command: Command, s: String, args: Array<out String>?): Boolean {
         if (sender is Player) {
-            plugin.runTaskAsynchronously {GradientMenu.open(sender)}
+            GradientMenu.open(sender)
             return true
         } else {
             sendMessage(sender, "This command can only be run by a player!")
