@@ -4,10 +4,13 @@ import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParse
 import dev.dxnny.prism.Prism.Companion.instance
 import net.kyori.adventure.text.Component
 import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
 
 object GradientManager {
-    private val config = instance.config
+    private val config: FileConfiguration
+        get() = instance.configuration
+    
     @Suppress("unused")
     fun getGradientString(gradientId: String): String? {
         val gradient: ConfigurationSection? = config.getConfigurationSection("gradients.$gradientId")
@@ -24,8 +27,10 @@ object GradientManager {
 
     fun getGradientComponent(id: String): Component {
         val gradientConfig = config.getConfigurationSection("gradients.$id")
-        val gradientColor = gradientConfig!!.getString("gradient")!!
-        val gradientName = gradientConfig.getString("name")
+            ?: throw IllegalArgumentException("Gradient ID $id does not exist in config")
+        val gradientColor = gradientConfig.getString("gradient")
+            ?: throw IllegalArgumentException("Gradient color not found for ID $id")
+        val gradientName = gradientConfig.getString("name") ?: "Unnamed Gradient"
 
         val fullGradient = mmParse("$gradientColor$gradientName<reset>")
         return fullGradient

@@ -1,5 +1,6 @@
 package dev.dxnny.prism.utils
 
+import dev.dxnny.infrastructure.utils.ConsoleLog
 import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParse
 import dev.dxnny.prism.Prism.Companion.instance
 import net.kyori.adventure.text.Component
@@ -10,21 +11,26 @@ import org.bukkit.inventory.ItemStack
 
 object GetItem {
 
-    private val plugin get() = instance
     private val itemConfig: FileConfiguration
-        get() = plugin.config
+        get() = instance.configuration
 
     fun getItem(itemPath: String, unlocked: Boolean): ItemStack? {
         val state = if (unlocked) "available" else "locked"
+
         if (itemPath.startsWith("gradients.")) {
-            if (itemConfig.getString("${itemPath}.name") != null) {
-                val gradientEntry: String? = if (itemConfig.getString("${itemPath}.gui-item") != null) {
-                    itemConfig.getString("${itemPath}.gui-item")?.uppercase()
-                } else {
-                    itemConfig.getString("gui.gradient.material")
+            val itemName = itemConfig.getString("${itemPath}.name")
+
+            if (itemName != null) {
+                val gradientEntry = itemConfig.getString("${itemPath}.gui-item")?.uppercase()
+                    ?: itemConfig.getString("gui.gradient.material")
+
+                val material = Material.getMaterial(gradientEntry!!)
+                if (material == null) {
+                    ConsoleLog.warn("Invalid material for $itemPath: $gradientEntry")
+                    return null
                 }
 
-                val material = Material.getMaterial(gradientEntry!!)!!
+
                 val customItem = ItemStack(material)
                 val itemMeta = customItem.itemMeta
 
@@ -33,13 +39,11 @@ object GetItem {
 
                 val loreList = itemConfig.getList("$itemPath.lore-$state") ?: itemConfig.getStringList("gui.gradient.lore-$state")
                 if (loreList.isNotEmpty()) {
-                    val itemLore: MutableList<Component> = mutableListOf()
-                    loreList.forEach {
-                        itemLore.add(mmParse(it.toString()).decoration(TextDecoration.ITALIC, false))
-                    }
+                    val itemLore = loreList.map { mmParse(it.toString()).decoration(TextDecoration.ITALIC, false) }
                     itemMeta.lore(itemLore)
                 }
-                customItem.setItemMeta(itemMeta)
+
+                customItem.itemMeta = itemMeta
                 return customItem
             }
         } else if (itemPath.startsWith("gui.")) {
