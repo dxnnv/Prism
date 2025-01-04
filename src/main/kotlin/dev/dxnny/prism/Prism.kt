@@ -28,7 +28,7 @@ class Prism : JavaPlugin() {
     private lateinit var storage: LiteManager
     lateinit var manager: PluginManager
     lateinit var infrastructure: Infrastructure
-    val version = "0.0.2"
+    val version = "0.0.4"
 
     override fun onLoad() {
         this.manager = server.pluginManager
@@ -99,6 +99,7 @@ class Prism : JavaPlugin() {
         }
     }
 
+    @Suppress("unused")
     fun runTaskAsynchronously(run: Runnable): BukkitTask {
         return this.server.scheduler.runTaskAsynchronously(this, run)
     }
