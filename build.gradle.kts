@@ -18,7 +18,7 @@ plugins {
 }
 
 group = "dev.dxnny"
-version = "0.0.4"
+version = "0.0.5"
 
 repositories {
     mavenCentral()
@@ -37,18 +37,18 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
     implementation(files("$projectDir/libraries/Infrastructure-0.0.2.jar"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("xyz.xenondevs.invui:invui-kotlin:1.36")
-    implementation("xyz.xenondevs.invui:invui-core:1.43")
-    implementation("xyz.xenondevs.invui:inventory-access-r16:1.43")
-    implementation("xyz.xenondevs.invui:inventory-access-r17:1.43")
-    implementation("xyz.xenondevs.invui:inventory-access-r18:1.43")
-    implementation("xyz.xenondevs.invui:inventory-access-r19:1.43")
-    implementation("xyz.xenondevs.invui:inventory-access-r20:1.43")
-    implementation("xyz.xenondevs.invui:inventory-access-r21:1.43")
+    implementation("xyz.xenondevs.invui:invui-kotlin:1.44")
+    implementation("xyz.xenondevs.invui:invui-core:1.44")
+    implementation("xyz.xenondevs.invui:inventory-access-r16:1.44")
+    implementation("xyz.xenondevs.invui:inventory-access-r17:1.44")
+    implementation("xyz.xenondevs.invui:inventory-access-r18:1.44")
+    implementation("xyz.xenondevs.invui:inventory-access-r19:1.44")
+    implementation("xyz.xenondevs.invui:inventory-access-r20:1.44")
+    implementation("xyz.xenondevs.invui:inventory-access-r21:1.44")
 }
 
 val targetJavaVersion = 21
