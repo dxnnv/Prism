@@ -28,7 +28,7 @@ class Prism : JavaPlugin() {
     private lateinit var storage: LiteManager
     lateinit var manager: PluginManager
     lateinit var infrastructure: Infrastructure
-    val version = "0.0.4"
+    val version = "0.0.5"
 
     override fun onLoad() {
         this.manager = server.pluginManager

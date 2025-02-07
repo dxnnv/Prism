@@ -21,4 +21,4 @@ helpSyntaxColor: "<c:#6EB9FD>"
 helpDescColor: "<grey>"
 helpFooter: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯-<reset>"
 
-version: "0.0.4"
+version: "0.0.5"
