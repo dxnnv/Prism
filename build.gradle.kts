@@ -71,7 +71,7 @@ tasks.processResources {
 }
 
 tasks.shadowJar {
-    delete("C:/Users/Danny/IdeaProjects/Prism/jars/Prism-${version}.jar")
+    delete("${projectDir.path}/jars/Prism-${version}.jar")
     archiveFileName.set("Prism-${version}.jar")
 
     exclude("org/intellij/lang/annotations/**")
