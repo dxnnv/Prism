@@ -31,7 +31,8 @@ class PlaceholderAPIHook : PlaceholderExpansion() {
         return true
     }
 
-    override fun onPlaceholderRequest(player: Player, params: String): String {
+    override fun onPlaceholderRequest(player: Player?, params: String): String {
+        if (player == null) return "Null"
         val uuid: UUID = player.uniqueId
         return prismPlaceholders(params, uuid)
     }
@@ -49,53 +50,34 @@ class PlaceholderAPIHook : PlaceholderExpansion() {
             gradientColor = instance.config.getConfigurationSection("gradients.$id")!!.getString("gradient")!!
         }
 
-        val player: Player? = Bukkit.getPlayer(uuid)
-        if (player != null) {
-            val customName = instance.config.getString("options.alt-placeholder.placeholder")?.let { PlaceholderAPI.setPlaceholders(player, it) }
-            val ign: String = miniMessage().serialize(Bukkit.getPlayer(uuid)?.name()!!)
-            val display: String = miniMessage().serialize(player.displayName())
+        val player = Bukkit.getPlayer(uuid)
+        val customName = instance.config.getString("options.alt-placeholder.placeholder")?.let { PlaceholderAPI.setPlaceholders(player, it) }
+        val ign: String = miniMessage().serialize(Bukkit.getPlayer(uuid)?.name()!!)
+        val display: String = miniMessage().serialize(player!!.displayName())
 
-            when (placeholder) {
-                "gradient_color" -> {
-                    return gradientColor
-                }
+        return when (placeholder) {
+            "gradient_color" -> gradientColor
 
-                "gradient_id" -> {
-                    return gradientId
-                }
+            "gradient_id" -> gradientId
 
-                "name" -> {
-                    return if (hasGradient) {
-                        miniToLegacy("$gradientColor$ign<reset>")
-                    } else {
-                        return ign
-                    }
-                }
-
-                "displayname" -> {
-                    return if (hasGradient) {
-                        miniToLegacy("$gradientColor$display<reset>")
-                    } else {
-                        miniToLegacy(display)
-                    }
-                }
-
-                "customname" -> {
-                    return if (customName != null) {
-                        if (hasGradient) {
-                            miniToLegacy("$gradientColor$customName<reset>")
-                        } else {
-                            customName
-                        }
-                    } else {
-                        "Invalid customname"
-                    }
-                }
-                else -> {
-                    return "Invalid Placeholder"
-                }
+            "name" -> {
+                if (hasGradient) miniToLegacy("$gradientColor$ign<reset>")
+                else ign
             }
+
+            "displayname" -> {
+                if (hasGradient) miniToLegacy("$gradientColor$display<reset>")
+                else miniToLegacy(display)
+            }
+
+            "customname" -> {
+                if (customName != null) {
+                    if (hasGradient) miniToLegacy("$gradientColor$customName<reset>")
+                    else customName
+                } else "Invalid customname"
+            }
+
+            else -> "Invalid Placeholder"
         }
-        return "Player is null"
     }
 }
