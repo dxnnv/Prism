@@ -71,12 +71,8 @@ tasks.processResources {
     }
 }
 
-tasks.register<Delete>("cleanDest") {
-    delete("C:/Users/Danny/IdeaProjects/Prism/jars/Prism-${version}.jar")
-}
-
 tasks.shadowJar {
-    dependsOn("cleanDest")
+    delete("C:/Users/Danny/IdeaProjects/Prism/jars/Prism-${version}.jar")
     archiveFileName.set("Prism-${version}.jar")
 
     exclude("org/intellij/lang/annotations/**")
@@ -85,20 +81,10 @@ tasks.shadowJar {
     destinationDirectory.set(file("jars"))
 }
 
-tasks.register("moveJar") {
-    dependsOn(tasks.shadowJar)
-    doLast {
-        val sourceFile = tasks.shadowJar.get().archiveFile.get().asFile
-        val destinationFile = file("C:/Users/Danny/IdeaProjects/Prism/jars/Prism-${version}.jar")
-        Files.copy(sourceFile.toPath(), destinationFile.toPath())
-    }
-}
-
 artifacts {
     archives(tasks.shadowJar)
 }
 
 tasks.build {
     dependsOn(tasks.shadowJar)
-    finalizedBy("moveJar")
 }
