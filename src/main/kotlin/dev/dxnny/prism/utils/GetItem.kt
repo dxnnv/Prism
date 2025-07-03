@@ -26,7 +26,7 @@ object GetItem {
         val loreList = getGradientLore(gradientData.identifier, unlocked)
         val itemStack = ItemStack.of(material).apply {
             itemMeta = itemMeta.apply {
-                displayName(gradientData.gradientComponent!!.decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE))
+                displayName(gradientData.gradientComponent.decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE))
                 if (loreList.isNotEmpty()) lore(loreList)
             }
         }
