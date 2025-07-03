@@ -1,83 +1,38 @@
 package dev.dxnny.prism.hooks
 
 import dev.dxnny.infrastructure.utils.text.ColorUtils.miniToLegacy
+import dev.dxnny.infrastructure.utils.text.MessageUtils.serialize
 import dev.dxnny.prism.Prism.Companion.instance
+import dev.dxnny.prism.manager.StorageManager.Companion.playerGradients
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
-import net.kyori.adventure.text.minimessage.MiniMessage.miniMessage
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import java.util.*
 
 class PlaceholderAPIHook : PlaceholderExpansion() {
-
-    override fun getIdentifier(): String {
-        return "prism"
-    }
-
-    override fun getAuthor(): String {
-        return "dxnny"
-    }
-
-    override fun getVersion(): String {
-        return instance.version
-    }
-
-    override fun persist(): Boolean {
-        return true
-    }
-
-    override fun canRegister(): Boolean {
-        return true
-    }
+    override fun getIdentifier() = "prism"
+    override fun getAuthor() = "dxnnv"
+    override fun getVersion() = instance.version
+    override fun persist() = true
+    override fun canRegister() = true
 
     override fun onPlaceholderRequest(player: Player?, params: String): String {
-        if (player == null) return "Null"
-        val uuid: UUID = player.uniqueId
-        return prismPlaceholders(params, uuid)
-    }
+        val uuid = player?.uniqueId ?: return "Invalid Player"
+        val gradient = playerGradients[uuid]
+        var gradientColor = gradient?.gradientColor
 
-    private fun prismPlaceholders(placeholder: String, uuid: UUID): String {
+        val ign = player.name().serialize()
+        val displayName = player.displayName().serialize()
+        val customName = instance.configuration.getString("options.alt-placeholder.placeholder")?.let { PlaceholderAPI.setPlaceholders(player, it) }
 
-        var gradientId = "null"
-        var gradientColor = "null"
-        var hasGradient = false
-
-        val id: String? = instance.getStorage().getGradientId(uuid)
-        if (id != "null" && id != null) {
-            hasGradient = true
-            gradientId = id
-            gradientColor = instance.config.getConfigurationSection("gradients.$id")!!.getString("gradient")!!
-        }
-
-        val player = Bukkit.getPlayer(uuid)
-        val customName = instance.config.getString("options.alt-placeholder.placeholder")?.let { PlaceholderAPI.setPlaceholders(player, it) }
-        val ign: String = miniMessage().serialize(Bukkit.getPlayer(uuid)?.name()!!)
-        val display: String = miniMessage().serialize(player!!.displayName())
-
-        return when (placeholder) {
-            "gradient_color" -> gradientColor
-
-            "gradient_id" -> gradientId
-
-            "name" -> {
-                if (hasGradient) miniToLegacy("$gradientColor$ign<reset>")
-                else ign
-            }
-
-            "displayname" -> {
-                if (hasGradient) miniToLegacy("$gradientColor$display<reset>")
-                else miniToLegacy(display)
-            }
-
-            "customname" -> {
-                if (customName != null) {
-                    if (hasGradient) miniToLegacy("$gradientColor$customName<reset>")
-                    else customName
-                } else "Invalid customname"
-            }
-
+        return when (params) {
+            "gradient_color" -> gradientColor ?: "No Gradient"
+            "gradient_id" -> gradient?.identifier ?: "No Gradient"
+            "name" -> gradientName(ign, gradientColor)
+            "displayname" -> gradientName(displayName, gradientColor)
+            "customname" -> gradientName(customName ?: return "Invalid Custom Name", gradientColor)
             else -> "Invalid Placeholder"
         }
     }
+
+    private fun gradientName(name: String, gradientColor: String?) = miniToLegacy("${gradientColor ?: ""}$name<reset>")
 }
