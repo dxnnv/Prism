@@ -1,37 +1,23 @@
 package dev.dxnny.prism.gui.items
 
-import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParse
-import dev.dxnny.infrastructure.utils.text.MessageUtils.sendMessage
-import dev.dxnny.prism.Prism.Companion.instance
-import dev.dxnny.prism.files.Lang
-import org.bukkit.Material
-import org.bukkit.configuration.ConfigurationSection
+import dev.dxnny.infrastructure.utils.text.MessageUtils.message
+import dev.dxnny.prism.Prism.Companion.storage
+import dev.dxnny.prism.files.Lang.Companion.CommandMessages
+import dev.dxnny.prism.files.Lang.Companion.ErrorMessages
+import dev.dxnny.prism.manager.StorageManager.Companion.playerGradients
+import dev.dxnny.prism.utils.GetItem.getGuiItem
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
-import xyz.xenondevs.invui.gui.PagedGui
-import xyz.xenondevs.invui.item.ItemProvider
-import xyz.xenondevs.invui.item.builder.ItemBuilder
-import xyz.xenondevs.invui.item.builder.setDisplayName
-import xyz.xenondevs.invui.item.impl.controlitem.PageItem
+import xyz.xenondevs.invui.item.impl.AbstractItem
 
-class ClearGradientItem : PageItem(false) {
-    private val storage = instance.getStorage()
-    private val clearGradientConfig: ConfigurationSection = instance.config.getConfigurationSection("gui.clear-gradient")!!
-    override fun getItemProvider(gui: PagedGui<*>?): ItemProvider {
-        val builder = ItemBuilder(Material.getMaterial(clearGradientConfig.get("material").toString())!!)
-        builder.setDisplayName(mmParse(clearGradientConfig.getString("name")!!))
-        return builder
-    }
+class ClearGradientItem : AbstractItem() {
+    override fun getItemProvider() = getGuiItem("clear-gradient")
 
     override fun handleClick(clickType: ClickType, player: Player, event: InventoryClickEvent) {
-        if (clickType == ClickType.LEFT){
-            if (!storage.getGradientId(player.uniqueId).isNullOrEmpty()) {
-                storage.clearPlayerGradient(player.uniqueId)
-                sendMessage(player, Lang.gradientCleared)
-            } else {
-                sendMessage(player, Lang.noGradientActive)
-            }
-        }
+        playerGradients.remove(player.uniqueId)?.let {
+            storage.updatePlayer(player.uniqueId, null)
+            player.message(CommandMessages.cleared)
+        } ?: return player.message(ErrorMessages.noGradientActive)
     }
 }
