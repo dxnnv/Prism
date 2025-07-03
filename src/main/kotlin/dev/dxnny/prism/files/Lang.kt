@@ -1,58 +1,59 @@
 package dev.dxnny.prism.files
 
-import dev.dxnny.prism.Prism
+import dev.dxnny.infrastructure.files.Messages.Companion.messagesConfig
 
 class Lang {
-    companion object{
-        // prefix
-        lateinit var prefix: String
+    companion object {
+        var prefix = "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8><b>GRADIENTS <reset><dark_grey>»</dark_grey> <white>"
 
-        // command output
-        lateinit var gradientApplied: String
-        lateinit var gradientCleared: String
-        lateinit var gradientAlreadyActive: String
-        lateinit var gradientAppliedOther: String
-        lateinit var gradientClearedOther: String
+        object CommandMessages {
+            var applied = "<green>You applied the <gradient> gradient!"
+            var cleared = "<grey>Your current gradient has been cleared."
+            var alreadyActive = "<red>You are already using this gradient!"
+            var appliedOther = "<green>Set <target>'s gradient to <gradient>."
+            var clearedOther = "<green>Cleared <target>'s gradient."
+            var reloaded = "<green>Reloaded successfully!"
+        }
 
-        // reload
-        lateinit var configReloaded: String
+        object ErrorMessages {
+            var noPermissionGradient = "<red>You don't have access to this gradient!"
+            var noPermission = "<red>You do not have permission to do this!"
+            var noGradientActive = "<red>You don't have any gradients applied"
+            var notEnoughArgs = "<red>Incorrect number of arguments."
+            var invalidGradient = "<red>This gradient does not exist!"
+            var invalidPlayer = "<red>Invalid player"
+        }
 
-        // errors
-        lateinit var noPermissionGradient: String
-        lateinit var noPermission: String
-        lateinit var noGradientActive: String
-        lateinit var notEnoughArgs: String
-        lateinit var gradientNonExistent: String
-        lateinit var invalidPlayer: String
+        object HelpMessages {
+            var header = "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</st> <gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8>Gradient Commands</gradient> <gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
+            var footer = "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯-<reset>"
+            var syntaxColor = "<c:#6EB9FD>"
+            var descColor = "<grey>"
+        }
 
-        // help
-        lateinit var helpHeader: String
-        lateinit var helpSyntaxColor: String
-        lateinit var helpDescColor: String
-        lateinit var helpFooter: String
+        fun updateMessages() {
+            fun updateField(currentValue: String, configKey: String) = messagesConfig.getString(configKey) ?: currentValue
 
-        fun updateMessages(plugin: Prism) {
-            prefix = plugin.getMessagesFile().getString("prefix") ?: "<gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8><b>GRADIENTS <reset><dark_grey>»</dark_grey> <white>"
+            prefix = updateField(prefix, "prefix")
 
-            gradientApplied = plugin.getMessagesFile().getString("gradientApplied") ?: "<green>You applied the <gradient> gradient!"
-            gradientCleared = plugin.getMessagesFile().getString("gradientCleared") ?: "<grey>Your current gradient has been cleared."
-            gradientAlreadyActive = plugin.getMessagesFile().getString("gradientAlreadyActive") ?: "<red>You are already using this gradient!"
-            gradientAppliedOther = plugin.getMessagesFile().getString("gradientAppliedOther") ?: "<green>Set <target>'s gradient to <gradient>."
-            gradientClearedOther = plugin.getMessagesFile().getString("gradientClearedOther") ?: "<green>Cleared <target>'s gradient."
+            CommandMessages.applied = updateField(CommandMessages.applied, "commands.gradient.applied")
+            CommandMessages.cleared = updateField(CommandMessages.cleared, "commands.gradient.cleared")
+            CommandMessages.alreadyActive = updateField(CommandMessages.alreadyActive, "commands.gradient.alreadyActive")
+            CommandMessages.appliedOther = updateField(CommandMessages.appliedOther, "commands.prism.appliedOther")
+            CommandMessages.clearedOther = updateField(CommandMessages.clearedOther, "commands.prism.clearedOther")
+            CommandMessages.reloaded = updateField(CommandMessages.reloaded, "commands.prism.reloaded")
 
-            configReloaded = plugin.getMessagesFile().getString("configReloaded") ?: "<green>Reloaded successfully!"
+            ErrorMessages.noPermissionGradient = updateField(ErrorMessages.noPermissionGradient, "errors.noPermissionGradient")
+            ErrorMessages.noPermission = updateField(ErrorMessages.noPermission, "errors.noPermission")
+            ErrorMessages.noGradientActive = updateField(ErrorMessages.noGradientActive, "errors.noGradientActive")
+            ErrorMessages.notEnoughArgs = updateField(ErrorMessages.notEnoughArgs, "errors.notEnoughArgs")
+            ErrorMessages.invalidGradient = updateField(ErrorMessages.invalidGradient, "errors.invalidGradient")
+            ErrorMessages.invalidPlayer = updateField(ErrorMessages.invalidPlayer, "errors.invalidPlayer")
 
-            noPermissionGradient = plugin.getMessagesFile().getString("noPermissionGradient") ?: "<red>You don't have access to this gradient!"
-            noPermission = plugin.getMessagesFile().getString("noPermission") ?: "<red>You do not have permission to do this!"
-            noGradientActive = plugin.getMessagesFile().getString("noGradientActive") ?: "<red>You don't have any gradients applied"
-            notEnoughArgs = plugin.getMessagesFile().getString("notEnoughArgs") ?: "<red>Incorrect number of arguments."
-            gradientNonExistent = plugin.getMessagesFile().getString("gradientNonExistent") ?: "<red>This gradient does not exist!"
-            invalidPlayer = plugin.getMessagesFile().getString("invalidPlayer") ?: "<red>Invalid player"
-
-            helpHeader = plugin.getMessagesFile().getString("helpHeader") ?: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</st> <gradient:#9cc2fd:#aa93ff:#e2b5fd:#fdadf8>Gradient Commands</gradient> <gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯<reset>"
-            helpSyntaxColor = plugin.getMessagesFile().getString("helpSyntaxColor") ?: "<c:#6EB9FD>"
-            helpDescColor = plugin.getMessagesFile().getString("helpDescColor") ?: "<grey>"
-            helpFooter = plugin.getMessagesFile().getString("helpFooter") ?: "<gray><b><st>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯-<reset>"
+            HelpMessages.header = updateField(HelpMessages.header, "help.header")
+            HelpMessages.syntaxColor = updateField(HelpMessages.syntaxColor, "help.colors.syntax")
+            HelpMessages.descColor = updateField(HelpMessages.descColor, "help.colors.description")
+            HelpMessages.footer = updateField(HelpMessages.footer, "help.footer")
         }
     }
 }
