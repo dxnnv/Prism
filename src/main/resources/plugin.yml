@@ -2,7 +2,7 @@ name: Prism
 version: '${version}'
 main: dev.dxnny.prism.Prism
 api-version: '1.21'
-authors: [ danny ]
+authors: [ dxnnv ]
 description: Color your displayname with custom gradients!
 website: https://dxnny.dev/
 depend: [ PlaceholderAPI ]
@@ -12,6 +12,7 @@ commands:
   gradients:
     description: "Opens the gradients GUI"
     usage: "/gradients"
+    permission: prism.use
     aliases:
       - gradient
   prism:
@@ -19,12 +20,6 @@ commands:
     usage: "&e/prism <help|set|clear|reload> [player] [gradient]"
     permission: prism.admin
 permissions :
-  prism.*:
-    description: "Wildcard Permission"
-    default: op
-    children:
-      prism.admin: true
-      prism.use: true
   prism.admin:
     description: "Access to /prism <help|set|clear|reload>"
     default: op
