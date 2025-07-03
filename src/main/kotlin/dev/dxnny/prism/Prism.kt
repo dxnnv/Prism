@@ -30,6 +30,7 @@ class Prism : JavaPlugin() {
     lateinit var configuration: Config
     lateinit var manager: PluginManager
     lateinit var infrastructure: Infrastructure
+    @Suppress("UnstableApiUsage")
     val version: String = pluginMeta.version
     val configVersion = "2.0.0"
     val messagesVersion = "2.0.0"
