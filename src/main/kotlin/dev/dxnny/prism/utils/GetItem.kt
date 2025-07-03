@@ -3,72 +3,63 @@ package dev.dxnny.prism.utils
 import dev.dxnny.infrastructure.utils.ConsoleLog
 import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParse
 import dev.dxnny.prism.Prism.Companion.instance
+import dev.dxnny.prism.objects.GradientData
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
-import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.inventory.ItemStack
+import xyz.xenondevs.invui.item.builder.ItemBuilder
+import xyz.xenondevs.invui.item.builder.setDisplayName
 
 object GetItem {
+    private val itemConfig = instance.configuration
+    private val DEFAULT_AVAILABLE_LORE = itemConfig.getStringList("gui.gradient.lore-available")
+    private val DEFAULT_LOCKED_LORE = itemConfig.getStringList("gui.gradient.lore-locked")
+    private val DEFAULT_GRADIENT_MATERIAL = itemConfig.getString("gui.gradient.material")
 
-    private val itemConfig: FileConfiguration
-        get() = instance.configuration
+    private fun createGradientItem(gradientData: GradientData, material: Material?, unlocked: Boolean): ItemStack? {
+        if (material == null) {
+            ConsoleLog.warning("Invalid material for ${gradientData.identifier}")
+            return null
+        }
 
-    fun getItem(itemPath: String, unlocked: Boolean): ItemStack? {
-        val state = if (unlocked) "available" else "locked"
-
-        if (itemPath.startsWith("gradients.")) {
-            val itemName = itemConfig.getString("${itemPath}.name")
-
-            if (itemName != null) {
-                val gradientEntry = itemConfig.getString("${itemPath}.gui-item")?.uppercase()
-                    ?: itemConfig.getString("gui.gradient.material")
-
-                val material = Material.getMaterial(gradientEntry!!)
-                if (material == null) {
-                    ConsoleLog.warn("Invalid material for $itemPath: $gradientEntry")
-                    return null
-                }
-
-
-                val customItem = ItemStack(material)
-                val itemMeta = customItem.itemMeta
-
-                val fullGradientName = GradientManager.getGradientComponent(itemPath.removePrefix("gradients.")).decoration(TextDecoration.ITALIC, false)
-                itemMeta.displayName(fullGradientName)
-
-                val loreList = itemConfig.getList("$itemPath.lore-$state") ?: itemConfig.getStringList("gui.gradient.lore-$state")
-                if (loreList.isNotEmpty()) {
-                    val itemLore = loreList.map { mmParse(it.toString()).decoration(TextDecoration.ITALIC, false) }
-                    itemMeta.lore(itemLore)
-                }
-
-                customItem.itemMeta = itemMeta
-                return customItem
-            }
-        } else if (itemPath.startsWith("gui.")) {
-            if (itemConfig.getString("${itemPath}.name") != null) {
-                val itemEntry = itemConfig.getString("${itemPath}.material")!!.uppercase()
-                val itemName: String? = itemConfig.getString("${itemPath}.name")
-
-                val material = Material.valueOf(itemEntry)
-                val customItem = ItemStack(material)
-                val itemMeta = customItem.itemMeta
-
-                itemMeta.displayName(mmParse(itemName!!))
-
-                val loreList = itemConfig.getStringList("$itemPath.lore-$state")
-                if (loreList.isNotEmpty()) {
-                    val itemLore: MutableList<Component> = mutableListOf()
-                    loreList.forEach {
-                        itemLore.add(mmParse(it.toString()).decoration(TextDecoration.ITALIC, false))
-                    }
-                    itemMeta.lore(itemLore)
-                }
-                customItem.setItemMeta(itemMeta)
-                return customItem
+        val loreList = getGradientLore(gradientData.identifier, unlocked)
+        val itemStack = ItemStack.of(material).apply {
+            itemMeta = itemMeta.apply {
+                displayName(gradientData.gradientComponent!!.decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE))
+                if (loreList.isNotEmpty()) lore(loreList)
             }
         }
-        return null
+        return itemStack
+    }
+
+    private fun getGradientLore(identifier: String, unlocked: Boolean): List<Component> {
+        val state = if (unlocked) "available" else "locked"
+        val default = if (unlocked) DEFAULT_AVAILABLE_LORE else DEFAULT_LOCKED_LORE
+        val lore = itemConfig.getStringList("gradients.$identifier.lore-$state").takeIf { it.isNotEmpty() } ?: default
+
+        return lore.map { mmParse(it.toString()).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE) }
+    }
+
+    fun getName(path: String) = itemConfig.getString("$path.name", null)
+
+    fun getMaterial(path: String): Material? {
+        val materialKey = itemConfig.getString("$path.material", DEFAULT_GRADIENT_MATERIAL)!!.uppercase()
+        val material = Material.getMaterial(materialKey)
+        if (material == null)
+            ConsoleLog.warning("Invalid material for $path: $materialKey")
+        return material
+    }
+
+    fun getGradientItem(data: GradientData, unlocked: Boolean): ItemStack? {
+        return getMaterial("gradients.${data.identifier}")?.let {
+             createGradientItem(data, it, unlocked)
+        }
+    }
+
+    fun getGuiItem(identifier: String): ItemBuilder {
+        val path = "gui.$identifier"
+        return ItemBuilder(getMaterial(path)!!)
+            .setDisplayName(mmParse(getName(path)!!))
     }
 }
