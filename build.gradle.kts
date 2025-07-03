@@ -1,26 +1,15 @@
-buildscript {
-    @Suppress("UnstableApiUsage")
-    configurations {
-        classpath {
-            resolutionStrategy {
-                //in order to handle jackson's higher release version in shadow, this needs to be upgraded to latest.
-                force("org.ow2.asm:asm:9.7")
-                force("org.ow2.asm:asm-commons:9.7")
-            }
-        }
-    }
-}
-
 plugins {
     kotlin("jvm") version "2.0.20"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 group = "dev.dxnny"
-version = "0.0.5"
+version = "2.0.0"
+val jarName = "${project.name}-${version}.jar"
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven("https://repo.papermc.io/repository/maven-public/") {
         name = "papermc-repo"
     }
@@ -38,16 +27,11 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
-    implementation(files("$projectDir/libraries/Infrastructure-0.0.2.jar"))
+
+    implementation("dev.dxnny:infrastructure:2.0.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("xyz.xenondevs.invui:invui-kotlin:1.44")
-    implementation("xyz.xenondevs.invui:invui-core:1.44")
-    implementation("xyz.xenondevs.invui:inventory-access-r16:1.44")
-    implementation("xyz.xenondevs.invui:inventory-access-r17:1.44")
-    implementation("xyz.xenondevs.invui:inventory-access-r18:1.44")
-    implementation("xyz.xenondevs.invui:inventory-access-r19:1.44")
-    implementation("xyz.xenondevs.invui:inventory-access-r20:1.44")
-    implementation("xyz.xenondevs.invui:inventory-access-r21:1.44")
+    implementation("xyz.xenondevs.invui:invui:1.46")
+    implementation("xyz.xenondevs.invui:invui-kotlin:1.46")
 }
 
 val targetJavaVersion = 21
@@ -71,17 +55,15 @@ tasks.processResources {
 }
 
 tasks.shadowJar {
-    delete("${projectDir.path}/jars/Prism-${version}.jar")
-    archiveFileName.set("Prism-${version}.jar")
+    delete("$projectDir/jars/$jarName")
+    archiveFileName.set(jarName)
+
+    relocate("org.bstats", "${group}.${project.name.lowercase()}.libs.bstats")
 
     exclude("org/intellij/lang/annotations/**")
     exclude("org/jetbrains/annotations/**")
 
     destinationDirectory.set(file("jars"))
-}
-
-artifacts {
-    archives(tasks.shadowJar)
 }
 
 tasks.build {
