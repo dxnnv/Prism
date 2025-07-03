@@ -1,3 +1,4 @@
+version: "2.0.0"
 options:
   # If you want to use a different placeholder as the player's name
   # Uses any PlaceholderAPI placeholder. For example: if using "%essentials_nickname%",
@@ -67,5 +68,3 @@ gui:
       - "<#FF0000>✘ Locked"
       - ""
       - "<#FFD700>Obtain from <u>/coinshop<u>!"
-
-version: "0.0.5"
