@@ -1,55 +1,55 @@
 package dev.dxnny.prism.gui.menus
 
-import dev.dxnny.infrastructure.utils.text.ColorUtils.miniToLegacy
+import dev.dxnny.infrastructure.utils.ConsoleLog
+import dev.dxnny.infrastructure.utils.text.MessageUtils.mmParse
 import dev.dxnny.prism.Prism.Companion.instance
-import dev.dxnny.prism.gui.items.*
-import dev.dxnny.prism.utils.GetItem
-import dev.dxnny.prism.utils.GradientManager
-import org.bukkit.configuration.ConfigurationSection
+import dev.dxnny.prism.gui.items.ClearGradientItem
+import dev.dxnny.prism.gui.items.GradientItem
+import dev.dxnny.prism.gui.items.MetaItems
+import dev.dxnny.prism.manager.GradientManager.gradientMap
+import dev.dxnny.prism.utils.GetItem.getGradientItem
 import org.bukkit.entity.Player
 import xyz.xenondevs.invui.gui.PagedGui
 import xyz.xenondevs.invui.gui.structure.Markers
 import xyz.xenondevs.invui.item.Item
 import xyz.xenondevs.invui.item.builder.ItemBuilder
 import xyz.xenondevs.invui.window.Window
+import xyz.xenondevs.invui.window.type.context.setTitle
 
-class GradientMenu {
+object GradientMenu {
 
-    companion object {
-        fun open(player: Player) {
-            val config = instance.configuration
+    private const val GUI_CONFIG_KEY = "gui"
+    private val guiConfig = instance.configuration.getConfigurationSection(GUI_CONFIG_KEY)!!
+    private val structure = guiConfig.getStringList("structure").toTypedArray()
+    private val title = mmParse(guiConfig.getString("title", "Gradients")!!)
+    private val guiTemplate = PagedGui.items()
+        .setStructure(*structure)
+        .addIngredient('#', MetaItems.FillerItem())
+        .addIngredient('<', MetaItems.PageBackItem())
+        .addIngredient('>', MetaItems.PageForwardItem())
+        .addIngredient('!', ClearGradientItem())
+        .addIngredient('.', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
 
-            val gradients: ConfigurationSection = config.getConfigurationSection("gradients")!!
-            val guiConfig: ConfigurationSection = config.getConfigurationSection("gui")!!
+    fun open(player: Player) {
+        val finalGui = guiTemplate.setContent(getGuiItems(player))
 
-            val allGradients = gradients.getKeys(false).toTypedArray()
-            val items = mutableListOf<Item>()
+        Window.single()
+            .setTitle(title)
+            .setGui(finalGui)
+            .build(player)
+            .open()
+    }
 
-            allGradients.forEach { gradientId ->
-                if (!gradients.getBoolean("${gradientId}.remove-from-gui")) {
-                    val unlocked = GradientManager.hasGradientPermission(player, gradientId)
-                    val gradientItem = GetItem.getItem("gradients.$gradientId", unlocked)
-                    val invuiItem: Item = GUIItem(ItemBuilder(gradientItem!!), gradientId)
-                    items.add(invuiItem)
-                }
+    private fun getGuiItems(player: Player): List<Item> {
+        return gradientMap.values.mapNotNull { data ->
+            if (data.hideFromGui) return@mapNotNull null
+            val isUnlocked = player.hasPermission(data.permission)
+            val gradientItem = getGradientItem(data, isUnlocked)
+            if (gradientItem == null) {
+                ConsoleLog.debug("Gradient item for ${data.identifier} ($isUnlocked) is null!")
+                return@mapNotNull null
             }
-
-            // make gui
-            val gui = PagedGui.items()
-                .setStructure(*guiConfig.getStringList("structure").toTypedArray())
-                .addIngredient('#', FillerItem())
-                .addIngredient('<', PageBackItem())
-                .addIngredient('>', PageForwardItem())
-                .addIngredient('!', ClearGradientItem())
-                .addIngredient('.', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
-                .setContent(items)
-                .build()
-            // create window
-            val window: Window = Window.single()
-                .setTitle(miniToLegacy(guiConfig.getString("title")!!))
-                .setGui(gui)
-                .build(player)
-            window.open()
+            GradientItem(ItemBuilder(gradientItem), data)
         }
     }
 }
