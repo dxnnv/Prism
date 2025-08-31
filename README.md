@@ -1,6 +1,6 @@
 # Prism
 
-Gives players awesome **gradients for their display names** with a slick in-game GUI, PlaceholderAPI support, and a tidy config/messages setup.
+Gives players awesome **gradients for their display names** with a slick in-game GUI and PlaceholderAPI support.
 
 > **Tested / built for:** Paper 1.21.x • Java 21 • Kotlin  
 > Latest: **2.0.0** (July 3, 2025)
@@ -40,11 +40,10 @@ Gives players awesome **gradients for their display names** with a slick in-game
 
 ---
 
-## 🔧 Commands & Permissions
+## Commands & Permissions
 
 | Command            | Description                          | Permission        |
 |--------------------|--------------------------------------|-------------------|
-| `/prism`           | Open the gradient selection GUI      | `prism.use`       |
 | `/gradients`       | Opens the gradients menu             | `prism.use`       |
 | `/prism reload`    | Reload config/messages               | `prism.admin`     |
 
